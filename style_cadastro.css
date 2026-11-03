@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #020706;
+    background-image: url("imagens/background_landing.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    width: 100%;
+    height: 110px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 7%;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 23px;
+}
+
+nav a:hover {
+    color: #00e6a0;
+}
+
+nav .pagina-atual {
+    color: #00e6a0;
+    font-weight: bold;
+}
+
+main {
+    width: 100%;
+    min-height: calc(100vh - 110px);
+    display: flex;
+    align-items: center;
+    padding: 0 6.5%;
+    gap: 5%;
+}
+
+.login {
+    width: 45%;
+    z-index: 1;
+}
+
+.login h1 {
+    font-size: 58px;
+    margin-bottom: 100px;
+}
+
+.campo {
+    width: 100%;
+    margin-bottom: 38px;
+}
+
+.campo label {
+    display: block;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.campo input {
+    width: 100%;
+    height: 65px;
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid transparent;
+    color: white;
+    font-size: 18px;
+    outline: none;
+}
+
+.campo input:focus {
+    border: 1px solid #00e6a0;
+}
+
+.campo input::placeholder {
+    color: #999;
+}
+
+.login button {
+    width: 100%;
+    height: 65px;
+    background-color: #00dda0;
+    border: none;
+    border-radius: 10px;
+    color: #001b13;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login button:hover {
+    background-color: #00bd89;
+}
+
+.cadastro {
+    margin-top: 38px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.cadastro a {
+    color: #00e6a0;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.cadastro a:hover {
+    text-decoration: underline;
+}

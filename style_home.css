@@ -1,0 +1,126 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("imagens/background_landing.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo h2 {
+    font-size: 25px;
+}
+
+.logo span {
+    font-size: 20px;
+    color: white;
+}
+
+nav {
+    display: flex;
+    gap: 45px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav a:hover {
+    color: #00e6a0;
+}
+
+main {
+    width: 100%;
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    padding: 0 7%;
+}
+
+.inicio {
+    width: 45%;
+}
+
+.inicio h1 {
+    font-size: 38px;
+    line-height: 1.4;
+    margin-bottom: 40px;
+}
+
+.botao {
+    display: block;
+    width: 330px;
+    padding: 18px;
+    background-color: rgba(255, 255, 255, 0.18);
+    border-radius: 40px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.botao:hover {
+    background-color: #00dba0;
+    color: black;
+}
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 0 5%;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    main {
+        padding: 0 7%;
+    }
+
+    .inicio {
+        width: 100%;
+    }
+
+    .inicio h1 {
+        font-size: 32px;
+    }
+
+    .botao {
+        width: 100%;
+        font-size: 20px;
+    }
+}
