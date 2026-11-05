@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap'); 
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-size: 101%;
+    background-color: black;
+    box-sizing: border-box;
+    color: white;
+    font-family: "DM Sans";
+}
+
+
+.tela {
+
+    display: flex;
+    flex: 1;
+
+    .login_esquerda {
+
+        flex: 1;
+        height: 100vh;
+        min-width: 0;
+
+        p {
+
+            margin-left: 120px;
+            margin-top: 100px;
+            font-size: 45px;
+            font-weight: bold;
+
+        }
+
+        span {
+
+            display: inline-block;
+            margin-left: 183px;
+            margin-top: 60px;
+            
+            
+
+        }
+
+        
+
+        .email {
+
+            display: flex;
+            margin-left: 123px;
+            align-items: start;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 50px;
+
+            label {
+
+                font-size: 23px;
+                margin-bottom: 5px;
+
+            }
+
+            input {
+
+                background-color: rgba(255, 255, 255, 0.20);
+                color: white;
+                border: none;
+                padding: 10px 100px;
+                padding-left: 0px;
+                align-items: flex-start;
+                text-align: left;
+                width: 290px;
+                
+                
+
+            }
+
+        }
+
+        .senha {
+
+            display: flex;
+            margin-left: 123px;
+            align-items: start;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 50px;
+            
+
+            label {
+
+                font-size: 23px;
+                margin-bottom: 5px;
+
+            }
+
+            input {
+
+                background-color: rgba(255, 255, 255, 0.20);
+                color: white;
+                border: none;
+                padding: 10px 100px;
+                padding-left: 0px;
+                text-align: left;
+                width: 290px;
+
+            }
+
+        }
+
+        
+
+            
+    }
+
+    .institucional_direita {
+
+        background-color: #1DB954;
+        flex: 1;
+        height: 100vh;
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+
+        nav {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 10px;
+            width: 550px;
+            margin-left: 50px;
+
+        }
+
+        .logo {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+
+                width: 300px;
+                height: auto;
+                object-fit: contain;
+                position: relative;
+                margin-top: 180px;
+                left: 10px;
+                
+
+            }
+
+        }
+
+
+    }
+
+    
+
+}
+
+
+
+
+
+
+
