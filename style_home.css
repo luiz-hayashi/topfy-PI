@@ -16,7 +16,7 @@ body {
     background-color: black;
     box-sizing: border-box;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "DM Sans";
 }
 
 nav {
@@ -24,6 +24,21 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    a{
+
+        color: white;
+        text-decoration: none;
+        
+        a&:hover {
+
+            color: rgb(180, 180, 180);
+            text-decoration: none;
+            transition: 100ms;
+        
+        }
+
+    }
 
     .botoes {
 
@@ -93,10 +108,52 @@ Tudo do conteudo da página
     white-space: nowrap;
     border: none;
 
-    .botao_home button:hover {
+    .botao_home button&:hover {
 
-        transition: 0.3s ease;
-        background-color: rgba(255, 255, 255, 1);
+        font-family: "DM Sans";
+        font-weight: bold;
+        margin-left: 100px;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.30);
+        color: white;
+        border-radius: 30px;
+        width: 400px;
+        height: auto;
+        padding: 10px;
+        padding-left: 50px; 
+        padding-right: 70px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 30px;
+        white-space: nowrap;
+        border: none;
+        transition: 50ms;
+
+
+        
+    }
+
+    .botao_home button&:active {
+
+        font-family: "DM Sans";
+        font-weight: bold;
+        margin-left: 100px;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.30);
+        color: white;
+        border-radius: 30px;
+        width: 400px;
+        height: auto;
+        padding: 10px;
+        padding-left: 50px; 
+        padding-right: 70px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 30px;
+        white-space: nowrap;
+        border: none;
+        transition: 50ms;
+        transform: scale(0.98);
 
 
         

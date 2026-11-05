@@ -42,6 +42,21 @@ body {
 
         }
 
+        a{
+
+            color: white;
+            text-decoration: none;
+        
+            a&:hover {
+
+                color: rgb(124, 124, 124);
+                text-decoration: none;
+                transition: 100ms;
+            
+            }
+
+        }
+
         
 
         .email {
@@ -80,7 +95,7 @@ body {
                     padding-left: 0px;
                     text-align: left;
                     width: 290px;
-                    transition: 300ms;
+                    transition: 100ms;
                     
                 }
                 
@@ -126,7 +141,7 @@ body {
                     padding-left: 0px;
                     text-align: left;
                     width: 290px;
-                    transition: 300ms;
+                    transition: 100ms;
                     
                 }
 
@@ -162,7 +177,7 @@ body {
                 font-size: 20px;
                 font-weight: bold;
                 border: none;
-                transition: 300ms;
+                transition: 100ms;
 
                 button&:active {
 
@@ -176,7 +191,7 @@ body {
                 font-weight: bold;
                 border: none;
                 transform: scale(0.95);
-                transition: 300ms;
+                transition: 50ms;
                     
                 }
 
@@ -197,6 +212,22 @@ body {
         display: flex;
         min-width: 0;
         flex-direction: column;
+
+        a {
+
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+
+            :hover{
+
+                margin-top: 15px;
+                color: rgb(180, 180, 180);
+                text-decoration: none;
+
+            }
+
+        }
 
         nav {
 
