@@ -8,15 +8,20 @@ Tudo da NAVBAR
 
 body {
     margin: 0;
+    background-color: black;
+    box-sizing: border-box;
+    color: white;
+    font-family: "DM Sans";
+}
+
+.home {
+    
     min-height: 100vh;
     background-image: url("imagens/background_landing.png");
     background-size: 101%;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: black;
-    box-sizing: border-box;
-    color: white;
-    font-family: "DM Sans";
+
 }
 
 nav {
@@ -29,6 +34,7 @@ nav {
 
         color: white;
         text-decoration: none;
+        font-size: 20px;
         
         a&:hover {
 
@@ -161,3 +167,242 @@ Tudo do conteudo da página
     
  
 }
+
+.oquedominasuaplaylist {
+
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #001c13, #121212);
+    display: flow-root;
+
+    .textocentraloquedomina {
+
+        font-family: "DM Sans";
+        font-size: 70px;
+        margin-left: 250px;
+        padding-top: 30px;
+
+        p {
+
+            margin-bottom: 170px;
+
+        }
+
+        span {
+
+            font-weight: bold;
+            
+
+        }
+
+
+    }
+
+
+}
+
+.aquivoceencontra {
+
+    min-height: 100vh;
+    background-color: #121212;
+    display: flow-root;
+    box-sizing: border-box;
+    min-height: 100vh;
+
+    
+
+    .tudoemumsolugartexto{
+
+        margin-left: 370px;
+        font-size: 60px;
+        font-weight: bold;
+
+    }
+
+    .textoaquivoceencontra {
+
+        padding-left: 40px;
+        padding-top: 0px;
+        transform: translateY(30px);
+        font-size: 60px;
+
+    }
+
+    .elementosoqagentefaz {
+
+        padding-top: 30px;
+        padding-left: 95px;
+        margin-bottom: -30px;
+
+
+        .musica {
+
+            border-radius: 20px;
+            background-color: #1b1b1b;
+            margin-right: 1000px;
+            padding-right: 10px;
+            padding-left: 10px;
+            margin-top: -10px;
+            padding-bottom: 10px;
+            width: 250px;
+            height: 250px;
+            padding: 30px;
+            padding-top: 5px;
+
+            
+
+            img {
+
+                margin-top: 20px;
+                margin-left: -5px;
+                width: 70px;
+                
+
+            }
+
+            span {
+
+                display: block;
+                margin-top: 25px;
+                margin-left: 0px;
+                
+                font-weight: bold;
+                font-size: 23px;
+                
+            }
+
+            p {
+
+                position: relative;
+                left: 0px;
+                font-size: 20px;
+
+            }
+
+        }
+    
+        .artistas {
+
+            border-radius: 20px;
+            background-color: #1b1b1b;
+            margin-right: 1000px;
+            margin-left: 390px;
+            padding-right: 10px;
+            padding-left: 10px;
+            margin-top: -285px;
+            padding-bottom: 10px;
+            width: 250px;
+            height: 250px;
+            padding: 30px;
+            padding-top: 5px;
+
+            
+
+            img {
+
+                margin-top: 20px;
+                margin-left: -5px;
+                width: 70px;
+                
+
+            }
+
+            span {
+
+                display: block;
+                margin-top: 25px;
+                margin-left: 0px;
+                
+                font-weight: bold;
+                font-size: 23px;
+                
+            }
+
+            p {
+
+                position: relative;
+                left: 0px;
+                font-size: 20px;
+
+            }
+
+        }
+
+        .generos {
+
+            border-radius: 20px;
+            background-color: #1b1b1b;
+            margin-right: 1000px;
+            margin-left: 780px;
+            padding-right: 10px;
+            padding-left: 10px;
+            margin-top: -285px;
+            padding-bottom: 10px;
+            width: 250px;
+            height: 250px;
+            padding: 30px;
+            padding-top: 5px;
+
+            
+
+            img {
+
+                margin-top: 20px;
+                margin-left: -5px;
+                width: 70px;
+                
+
+            }
+
+            span {
+
+                display: block;
+                margin-top: 25px;
+                margin-left: 0px;
+                
+                font-weight: bold;
+                font-size: 23px;
+                
+            }
+
+            p {
+
+                position: relative;
+                left: 0px;
+                font-size: 20px;
+
+            }
+
+        }
+
+
+    }
+    
+}
+
+.footer {
+
+    min-height: 50vh;
+    background-color: #1ed760;
+
+    img {
+
+        width: 500px;
+        padding-top: 60px;
+        padding-left: 80px;
+
+
+    }
+
+    .textofooter {
+
+        position: relative;
+        padding-left: 600px;
+        margin-top: -190px;
+        font-size: 50px;
+        
+        
+
+    }
+
+}
+
