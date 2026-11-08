@@ -1,5 +1,8 @@
 # 🎵 Topfy — Sua playlist, seu gosto, em dados
 
+<img width="866" height="288" alt="image" src="https://github.com/user-attachments/assets/19212b9c-ddbe-44c1-9d8f-f3d4cc5c3d6d" />
+
+
 O **Topfy** é uma plataforma web desenvolvida com o objetivo de transformar playlists em informações relevantes sobre os hábitos e preferências musicais dos usuários.
 
 A proposta é permitir que o usuário cadastre músicas de uma playlist e visualize análises sobre seu conteúdo, identificando artistas recorrentes, gêneros musicais predominantes e outras estatísticas relacionadas ao seu gosto musical.
