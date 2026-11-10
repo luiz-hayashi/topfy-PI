@@ -26,7 +26,7 @@ body {
         p {
 
             margin-left: 170px;
-            margin-top: 70px;
+            margin-top: 30px;
             font-size: 45px;
             font-weight: bold;
 
@@ -153,6 +153,7 @@ body {
 
             margin-left: 205px;
             margin-top: 50px;
+            margin-bottom: -20px;
 
             button {
 
@@ -202,7 +203,6 @@ body {
         }
 
         .jaedecasa{
-
             margin-left: 38px;
 
         }
@@ -211,7 +211,7 @@ body {
 
     .telabonita_esquerda {
 
-        background-image: url(imagens/mocaouvindomusica.jpg);
+        background-image: url(./imagens/mocaouvindomusica.jpg);
         background-size: 100% auto;
         background-position: center;
         flex: 1;
