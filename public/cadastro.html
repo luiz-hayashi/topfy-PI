@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Topfy</title>
+    <title>Cadastro - Topfy</title>
     <link rel="stylesheet" href="style_cadastro.css">
     <script src="./js/sessao.js"></script>
 </head>
@@ -20,7 +20,7 @@
 
             <div class="logo">
 
-                <a href="home.html"><img src="imagens/logotopfywbg.png" alt=""></a>
+                <a href="index.html"><img src="imagens/logotopfywbg.png" alt=""></a>
 
             </div>
 
@@ -74,9 +74,6 @@
 </html>
 <script>
 
-  // Array para armazenar usuários cadastrados 
-  let usuariosCadastrados = [];
-
   function cadastrar() {
     // aguardar();
 
@@ -93,14 +90,13 @@
       senhaVar == "" ||
       confirmacaoSenhaVar == ""
     ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
-
-      finalizarAguardar();
+      alert(`Há campo(s) em branco. Tente novamente`);
       return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
+    } 
+
+    if (senhaVar != confirmacaoSenhaVar) {
+      alert(`O campo de confirmação de senha está diferente da senha. Tente novamente`);
+      return false;
     }
 
     // Enviando o valor da nova input
@@ -120,30 +116,27 @@
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
-          cardErro.style.display = "block";
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+            alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...");
 
           setTimeout(() => {
             window.location = "login.html";
-          }, "2000");
+          }, 2000);
 
-          limparFormulario();
-          finalizarAguardar();
         } else {
+          if (resposta.status == 409){
+            alert("O e-mail inserido já está cadastrado.")
+            return false
+          } 
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+        alert(`Não foi possível realizar o cadastro. Tente novamente mais tarde.`);
       });
 
     return false;
   }
 
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
 </script>

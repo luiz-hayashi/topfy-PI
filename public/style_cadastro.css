@@ -26,9 +26,10 @@ body {
         p {
 
             margin-left: 170px;
-            margin-top: 30px;
+            margin-top: 42px;
             font-size: 45px;
             font-weight: bold;
+            margin-bottom: -2px;
 
         }
 
@@ -66,7 +67,7 @@ body {
             align-items: start;
             flex-direction: column;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 30px;
 
             label {
 

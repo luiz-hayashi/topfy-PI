@@ -18,20 +18,20 @@
             <div class="email">
 
                 <label for="e-mail">E-mail</label>
-                <input type="text" id="e-mail" placeholder="Digite seu e-mail">
+                <input type="text" id="email_input" placeholder="Digite seu e-mail">
 
             </div>
 
             <div class="senha">
 
                 <label for="">Senha</label>
-                <input type="password" id="senha" placeholder="Digite sua senha">
+                <input type="password" id="senha_input" placeholder="Digite sua senha">
 
             </div>
 
             <div class="botao_login">
 
-                <button>Login</button>
+                <button onclick="entrar()">Login</button>
 
             </div>
 
@@ -43,9 +43,9 @@
             
             <nav>
 
-                <a href="home.html">Home</a>
+                <a href="index.html">Home</a>
 
-                <a href="home.html#sobre">Sobre</a>
+                <a href="index.html">Sobre</a>
 
                 <a href="cadastro.html">Cadastro</a>
 
@@ -71,20 +71,14 @@
 <script>
 
 
-    function entrar() {
-        aguardar();
+    function entrar() { 
 
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            alert(`Há campo(s) em branco. Tente novamente.`)
             return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
         }
 
         console.log("FORM LOGIN: ", emailVar);
@@ -123,19 +117,17 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
-                    finalizarAguardar(texto);
+                    alert(texto);
                 });
             }
 
         }).catch(function (erro) {
             console.log(erro);
+            alert(`Não foi possível fazer o login. Tente novamente mais tarde.`)
         })
 
         return false;
     }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
 
 </script>
