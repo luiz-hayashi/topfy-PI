@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-size: 101%;
+    background-color: #121212;
+    box-sizing: border-box;
+    color: white;
+    font-family: "DM Sans";
+}
+
+nav {
+
+    display: flex;
+    flex: 1;
+    background-color: #1b1b1b;
+    height: 10vh;
+    border-bottom: 1px solid;
+    border-bottom-color: rgb(255, 255, 255, 0.09);
+
+    .logo_navbar {
+
+
+        margin-top: 7px;
+        margin-left: 15px;
+
+        img {
+
+            width: 120px;
+            height: auto;
+
+        }
+
+    }
+
+    .elemento_playlist {
+
+        display: flex;
+        margin-top: -4px;
+        margin-left: 40px;
+
+        p {
+
+            font-size: 20px;
+
+            a {
+
+                text-decoration: none;
+                color: white;
+                border-bottom: 2px solid transparent;
+                padding-bottom: 15px;
+                transition: 100ms;
+
+            }
+
+            a:hover {
+
+                border-bottom-color: #1ed760;
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+    .elemento_dashboard {
+
+        display: flex;
+        margin-top: -1.5px;
+        margin-left: 40px;
+
+        p {
+
+            font-size: 19px;
+
+            a {
+
+                text-decoration: none;
+                color: white;
+                border-bottom: 2px solid transparent;
+                padding-bottom: 15px;
+                transition: 100ms;
+
+            }
+
+            a:hover {
+
+                border-bottom-color: #1ed760;
+
+
+            }
+
+
+        }
+
+
+    }
+
+    .elemento_usuario {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+
+        P {
+
+            font-size: 19px;
+            margin-top: 18px;
+            margin-left: 680px;
+
+        }
+
+        img {
+
+            margin-top: -14px;
+            margin-left: -20px;
+            width: 85px;
+            height: 85px;
+
+        }
+
+    }
+
+    .elemento_quiz {
+
+        display: flex;
+
+        p {
+
+            font-size: 19px;
+            margin-top: 18px;
+            margin-left: 40px;
+
+            a {
+
+                text-decoration: none;
+                color: white;
+                border-bottom: 2px solid transparent;
+                padding-bottom: 15px;
+                transition: 100ms;
+
+            }
+
+            a:hover {
+
+                border-bottom-color: #1ed760;
+
+
+            }
+
+
+        }
+
+
+    }
+
+
+
+}
+
+.texto_sua_playlist {
+
+    font-size: 50px;
+    margin-top: -35px;
+
+
+}
+
+.quadro_playlist {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -30px;
+
+    background-color: #1b1b1b;
+    border-radius: 10px;
+    height: 405px;
+    width: 1200px;
+
+
+    p {
+
+        font-size: 30px;
+        margin-bottom: 0px;
+        margin-top: -15px;
+
+
+    }
+
+    span {
+
+        font-size: 30px;
+        color: rgb(255, 255, 255, 0.5);
+        margin-bottom: -10px;
+        margin-top: 5px;
+
+    }
+
+    .campo_buscar_musica {
+
+        display: flex;
+
+        input {
+
+            padding: 10px 15px;
+            margin-top: 30px;
+            width: 500px;
+            height: 40px;
+            border: 1px solid;
+            border-radius: 200px;
+            border-color: rgb(255, 255, 255, 0.4);
+            font-size: 30px;
+            background-color: #282828;
+            color: white;
+
+        }
+
+    }
+
+}
+
+.disco_quebrado_transparente {
+
+    img {
+
+        width: 225px;
+        height: 225px;
+        opacity: 30%;
+        margin-top: -10px;
+
+    }
+
+}
+
+.conteudo-pagina {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
