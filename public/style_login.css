@@ -264,6 +264,18 @@ body {
 
     }
 
+
+    .tela_loading {
+
+        display: flex;
+        position: fixed;
+        align-items: center;
+        justify-content: center;
+        inset: 0;
+        backdrop-filter: blur;
+        z-index: 10;
+
+    }
     
 
 }

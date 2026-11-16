@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist - Topfy</title>
+    <link rel="stylesheet" href="tela_playlist.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <nav>
+
+            <div class="logo_navbar">
+
+                <img src="imagens/logotopfywbg.png" alt="">
+
+            </div>
+
+            <div class="elemento_playlist">
+
+                <p><a href="">Playlist</a></p>
+
+            </div>
+
+            <div class="elemento_dashboard">
+
+                <p><a href="">Dashboard</a></p>
+
+            </div>
+
+            <div class="elemento_quiz">
+
+                <p><a href="tela_quiz.html">Quiz</a></p>
+
+            </div>
+
+            <div class="elemento_usuario">
+
+                <p>Hayashi</p> <img src="imagens/ícone_usuario_tela_playlist.png" alt="">
+
+            </div>
+
+            
+
+
+
+        </nav>
+
+        <div class="conteudo-pagina">
+
+            <div class="texto_sua_playlist">
+
+                <p>Sua playlist</p>
+
+            </div>
+
+            <div class="quadro_playlist">
+
+                <div class="disco_quebrado_transparente">
+
+                    <img src="imagens/disco_quebrado_transparente.png" alt="">
+
+                </div>
+
+
+                <p>Você ainda não adicionou nada</p>
+
+                <span>Vamos ouvir algo?</span>
+
+                <div class="campo_buscar_musica">
+
+                    <input oninput="buscarMusica()" id="input_busca_musica" type="text">
+
+                    <ul id="popup_busca_musica">
+
+                        
+
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+</body>
+</html>
+<script>
+    
+    var temporizador
+
+    var lista_musicas = []
+
+    function buscarMusica() {
+
+        var buscar_musica_input = input_busca_musica.value
+        var popup_busca = popup_busca_musica
+
+        let busca_limpa = buscar_musica_input.toLowerCase().trim()
+
+        clearTimeout(temporizador)
+
+        if (busca_limpa.length >= 2) {
+
+            console.log(busca_limpa)
+
+            temporizador = setTimeout(function intervalo_pedido() {
+
+                fetch("/deezer/buscar?q=" + encodeURIComponent(busca_limpa))
+
+                .then(function (resposta) {
+
+                    return resposta.json()
+
+                })
+
+                .then(function (dados) {
+
+                    lista_musicas = dados
+
+                    popup_busca_musica.style.display = "block"
+
+                    popup_busca_musica.innerHTML = ""
+
+                    for (let i = 0; i < lista_musicas.length; i++) {
+                    
+                        popup_busca_musica.innerHTML += "<li onclick='mostrar(" + i + ")'><img src='" + lista_musicas[i].capa + "'>" + lista_musicas[i].musica + " - " + lista_musicas[i].artista + "</li>"
+                    
+                    }
+
+                    if (popup_busca_musica.innerHTML == ""){
+
+                        popup_busca_musica.innerHTML = `Nenhuma música/artista encontrado.`
+
+                    }
+
+                })
+                        
+                    .catch(function (erro) {
+
+                    console.log(erro)
+                    
+                })
+
+            }, 400)
+
+            
+
+            
+
+            
+
+        } else {
+            
+
+            console.log("curto demais")
+
+            popup_busca.style.display = "none"
+
+            return;
+
+        }
+
+    }
+
+    function mostrar(posicao) {
+
+        console.log(lista_musicas[posicao])
+
+        popup_busca_musica.style.display = "none"
+
+        input_busca_musica.value = ""
+
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
