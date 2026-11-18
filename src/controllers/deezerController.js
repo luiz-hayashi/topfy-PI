@@ -1,6 +1,7 @@
 function buscar(req, res) {
 
-    /* AQUI ACONTECE A REQUISIÇÃO DE MÚSICAS A SEREM PESQUISADAS PARA A API DO DEEZER */
+    // aqui acontece de fato a requisição a API da Deezer para buscar músicas
+    // o mesmo fetch que está aqui, também está lá na tela_playlist, para requisitar a API de busca :)
 
     var busca = req.query.q
 
@@ -12,7 +13,7 @@ function buscar(req, res) {
 
     })
 
-    /* AQUI EU BUSCO O JASON DE TODAS AS RESPOSTAS PROVAVÉIS E LIMITO A 8*/
+    /* AQUI EU BUSCO O JSON DE TODAS AS RESPOSTAS PROVAVÉIS E LIMITO A 8*/
 
     .then(function (dados) {
 

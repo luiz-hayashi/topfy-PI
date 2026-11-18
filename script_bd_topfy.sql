@@ -13,8 +13,10 @@ CREATE TABLE musica (
     musica VARCHAR(45) NOT NULL,
 	artista VARCHAR(45) NOT NULL,
 	genero VARCHAR(45) NOT NULL,
-    id_musica VARCHAR(100) NOT NULL,
-    id_artista VARCHAR(100) NOT NULL
+    id_musica VARCHAR(300) NOT NULL,
+    id_artista VARCHAR(300) NOT NULL,
+    capa VARCHAR(300) NOT NULL,
+    foto_artista VARCHAR(300) NOT NULL
     );
 
 CREATE TABLE usuario_musica (

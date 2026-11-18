@@ -18,8 +18,12 @@ var app = express();
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 
-/* ROUTER DA API DO DEEZER*/ 
+/* ROUTERs DA API DO DEEZER*/
+// o DeezerRouter é a rota para a requisição de busca da deezer
+// a musicaRouter é a rota para requisição dos dados da API do deezer, que serão guardados em banco de dados 
 var deezerRouter = require("./src/routes/deezer");
+var musicaRouter = require("./src/routes/musica")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,9 +34,9 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 
-/* APP.USE DO ROUTER DA API DO DEEZER*/
-
+/* APP.USE DO ROUTER DAS API DO DEEZER*/
 app.use("/deezer", deezerRouter);
+app.use("/musica", musicaRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`

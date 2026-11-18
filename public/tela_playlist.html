@@ -60,16 +60,22 @@
 
             <div class="quadro_playlist">
 
-                <div class="disco_quebrado_transparente">
+                <div id="estado_vazio" class="estado_vazio">
 
-                    <img src="imagens/disco_quebrado_transparente.png" alt="">
+                    <div class="disco_quebrado_transparente">
+
+                        <img src="imagens/disco_quebrado_transparente.png" alt="">
+
+                    </div>
+
+                    <p>Você ainda não adicionou nada</p>
+
+                    <span>Vamos ouvir algo?</span>
 
                 </div>
 
-
-                <p>Você ainda não adicionou nada</p>
-
-                <span>Vamos ouvir algo?</span>
+                <div class="cards_musicas_playlist" id="cards_musicas_playlist">
+                </div>
 
                 <div class="campo_buscar_musica">
 
@@ -84,6 +90,7 @@
                 </div>
 
             </div>
+
         </div>
 
 
@@ -103,6 +110,8 @@
 
     var lista_musicas = []
 
+    var container_cards = document.getElementById("cards_musicas_playlist");
+
     function buscarMusica() {
 
         var buscar_musica_input = input_busca_musica.value
@@ -114,11 +123,29 @@
 
         if (busca_limpa.length >= 2) {
 
+            // coloquei um cleartimeout para que o intervalo de requisições seja reiniciado
+            // logo abaixo, eu faço uma função para ficar exibindo "buscando..." até que a API devolva as
+            // sugestões de provavéis músicas baseadas no que o usuário escreveu 
+
             console.log(busca_limpa)
+
+            popup_busca_musica.style.display = "block";
+            popup_busca_musica.innerHTML = "<li>Buscando...</li>";
+
+            // aqui acontece de fato a requisição para a API, por meio do fetch. Criei uma espécie d
+            // "uniformizante" de busca, que mantém tudo em lowercase, um trim para remover os espaços inúteis
+            // que um usuário pode vir a inserir, e um encodeURI para a busca do usuário não quebrar a URL da 
+            // requisição ao digitar caractéres especiais, ou espaços entre palavras
+            // o html não fala português, fala HTML, por isso:
+            // Rock nacional anos 80 em encodeURI vira -> Rock%20nacional%20anos%2080
+            // assim, a requisição acontece sem empecilhos
 
             temporizador = setTimeout(function intervalo_pedido() {
 
                 fetch("/deezer/buscar?q=" + encodeURIComponent(busca_limpa))
+
+                // o bom dessa API, é que o link das requisições é o mesmo, eu só concateno o que de fato eu
+                // quero buscar, seja o nome do artista, ou da música
 
                 .then(function (resposta) {
 
@@ -127,6 +154,11 @@
                 })
 
                 .then(function (dados) {
+
+                    // aqui, eu faço com o javascript, o popup levantar assim que o usuário digita alguma coisa
+                    // e sumir assim que ele seleciona algo, ou que não esteja procurando.
+                    // logo abaixo, também tem a função da busca com o for, onde ele gera um elemento lista
+                    // que concatena a imagem da música, o nome da música, e o artista.
 
                     lista_musicas = dados
 
@@ -177,21 +209,125 @@
 
     function mostrar(posicao) {
 
+        // ele primeiro oculta o popup e limpa a input quando alguém clica na música
+        // ela vira um card, que se torna um player audível
+
+        var musica = lista_musicas[posicao];
+
+        var card_musica = document.createElement("div")
+        card_musica.className = "card_musica"
+
+        document.getElementById("estado_vazio").style.display = "none";
+
+        card_musica.innerHTML = `
+        <img src="${musica.capa}" alt="Capa de ${musica.musica}">
+        <div class="info_musica">
+            <div class="nome">${musica.musica}</div>
+            <div class="artista">${musica.artista}</div>
+        </div>
+        <button class="btn_genero">Adicionar gênero</button>
+        <input type="text" class="input_genero" placeholder="Digite o gênero..." style="display:none;">
+        <button class="btn_remover" title="Remover">×</button>
+        <button class="btn_dropdown" title="Opções">▼</button>
+        `;
+
+        container_cards.appendChild(card_musica);
+
+        var btnRemover = card_musica.querySelector(".btn_remover");
+
+            btnRemover.addEventListener("click", function () {
+
+            card_musica.remove();
+            
+            if (container_cards.children.length === 0) {
+
+                document.getElementById("estado_vazio").style.display = "flex";
+
+            }
+            
+        });
+
         console.log(lista_musicas[posicao])
 
         popup_busca_musica.style.display = "none"
 
         input_busca_musica.value = ""
 
-    }
+        var btnGenero = card_musica.querySelector(".btn_genero");
+        var inputGenero = card_musica.querySelector(".input_genero");
+
+        // isso aqui é bem legal, faz o botão virar um input quando clica, e quando tira o foco, vira botão de novo
+        btnGenero.addEventListener("click", function () {
+
+        btnGenero.style.display = "none";
+        inputGenero.style.display = "inline-block";
+        inputGenero.focus();
+
+        });
 
 
 
+        inputGenero.addEventListener("blur", function () {
+        var genero = inputGenero.value.trim();
 
+        if (!genero) {
+            // aqui se ele não clicar nada, volta ao normal
+            btnGenero.style.display = "inline-block";
+            inputGenero.style.display = "none";
+            return;
+        }
 
+        // aqui fica a requisição onde se cadastra a música no banco de dados!
+        fetch("/musica/cadastrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                musica: musica.musica,
+                artista: musica.artista,
+                genero: genero,
+                id_musica: musica.id_musica,
+                id_artista: musica.id_artista,
+                capa: musica.capa,
+                foto_artista: musica.foto_artista
+            })
+        })
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (dados) {
+            if (!dados || !dados.sucesso) {
+                throw "Erro ao cadastrar música";
+            }
 
+            // e aqui executa a função de associar, que faz insert na tabela associativa :)
+            var idUsuario = sessionStorage.ID_USUARIO;
+            if (!idUsuario) {
+                throw "Usuário não logado";
+            }
 
-
-
+            return fetch("/musica/associar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fk_usuario: idUsuario,
+                    fk_musica: dados.id
+                })
+            });
+        })
+        .then(function () {
+            // se tudo der certo, a gente joga um card com sua música pimposa lá dentro
+            inputGenero.style.display = "none";
+            btnGenero.textContent = "Gênero adicionado";
+            btnGenero.style.display = "inline-block";
+            btnGenero.disabled = true;
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            //  as se não der certo, a gente não faz nada também
+            inputGenero.style.display = "none";
+            btnGenero.style.display = "inline-block";
+        });
+    });
+}
 
 </script>
