@@ -212,7 +212,7 @@ body {
 
     .telabonita_esquerda {
 
-        background-image: url(./imagens/mocaouvindomusica.jpg);
+        background-image: url(../imagens/mocaouvindomusica.jpg);
         background-size: 100% auto;
         background-position: center;
         flex: 1;
