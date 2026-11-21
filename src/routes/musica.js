@@ -24,6 +24,31 @@ router.post("/associar", function (req, res) {
 
 })
 
+// aqui é uma rota de requisição que dá get, ou seja, é uma consulta, não uma inserção
+
+router.get("/listar/:idUsuario", function (req, res) {
+
+    musicaController.listar(req, res)
+
+})
+
+// aqui é a rota por onde a solicitação de remoção de músicas passa
+// note que é router.delete, enquanto a de consulta é -get-, e a de inserção é -post-
+
+router.delete("/remover/:idUsuario/:idMusica", function (req, res) {
+
+    musicaController.remover(req, res)
+
+})
+
+// aqui é a rota que acontece a solicitação de mudança do gênero da música.
+
+router.put("/atualizar-genero/:idMusica", function(req, res) {
+
+    musicaController.atualizarGenero(req, res)
+
+})
+
 module.exports = router
 
 // agora eu vou mandar isso para appJs, que vai criar a entrada para minha aplicação, que vai receber 

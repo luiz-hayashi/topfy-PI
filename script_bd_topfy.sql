@@ -26,4 +26,3 @@ CREATE TABLE usuario_musica (
 		CONSTRAINT fk_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario(id),
 		CONSTRAINT fk_musica FOREIGN KEY (fk_musica) REFERENCES musica(id)
 );
-

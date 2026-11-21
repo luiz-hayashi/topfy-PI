@@ -174,9 +174,12 @@ nav {
 }
 
 .estado_vazio {
+
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .quadro_playlist {
@@ -185,7 +188,7 @@ nav {
     flex-direction: column;
     align-items: center;
     margin-top: -30px;
-    min-height: 405px;
+    height: 405px;
     padding-bottom: 20px;
     box-sizing: border-box;
     background-color: #1b1b1b;
@@ -195,6 +198,7 @@ nav {
 
     p {
 
+        justify-content: center;
         font-size: 30px;
         margin-bottom: 0px;
         margin-top: -15px;
@@ -215,11 +219,14 @@ nav {
 
         display: flex;
         position: relative;
+        flex-shrink: 0;
 
         input {
 
+            justify-content: center;
+            align-items: center;
             padding: 10px 15px;
-            margin-top: 30px;
+            margin-top: 35px;
             width: 500px;
             height: 40px;
             border: 1px solid;
@@ -244,9 +251,10 @@ nav {
             padding: 10px;
             border-radius: 10px;
             z-index: 10;
-            margin-bottom: -30px;
+            margin-top: 18px;
             box-sizing: border-box;
             display: none;
+            transform: translateY(45px);
 
             li {
 
@@ -258,8 +266,8 @@ nav {
 
             img {
 
-                width: 44px;
-                height: 44px;
+                width: 55px;
+                height: 55px;
                 border-radius: 6px;
                 object-fit: cover;
 
@@ -278,6 +286,7 @@ nav {
 
     .cards_musicas_playlist {
 
+        flex: 1;
         display: none;
         flex-direction: column;
         gap: 12px;
@@ -287,6 +296,9 @@ nav {
         box-sizing: border-box;
         overflow-y: auto;
         max-height: 300px;
+        margin-top: 15px;
+        scrollbar-width: thin;
+        scrollbar-color: #444444 transparent;
 
         &:has(.card_musica) {
 
@@ -299,6 +311,7 @@ nav {
     
     .card_musica {
 
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 14px;
@@ -313,7 +326,7 @@ nav {
             .genero_tag {
 
                 border: 1px solid #1ed760;
-                color: #1ed760;
+                color: #1e1e1e;
                 border-radius: 20px;
                 padding: 4px 14px;
                 font-size: 14px;
@@ -429,9 +442,9 @@ nav {
                 }
 
                 &:disabled {
-                    background-color: #1ed760;
-                    border-color: #1ed760;
-                    color: #000000;
+                    background-color: #282828;
+                    border-color: gray;
+                    color: white;
                     cursor: default;
                     opacity: 0.9;
                 }
@@ -448,18 +461,34 @@ nav {
                 flex-shrink: 0;
                 outline: none;
 
+            }
+
                 
-                .btn_remover,
+                .btn_remover{
+
+                    background: none;
+                    border: none;
+                    color: rgb(255, 255, 255, 0.6);
+                    font-size: 30px;
+                    line-height: 1;
+                    cursor: pointer;
+                    flex-shrink: 0;
+                    transition: color 0.2s;
+                    background-color: none;
+
+                }
+
                 .btn_dropdown {
 
                     background: none;
                     border: none;
                     color: rgb(255, 255, 255, 0.6);
-                    font-size: 22px;
+                    font-size: 20px;
                     line-height: 1;
                     cursor: pointer;
                     flex-shrink: 0;
                     transition: color 0.2s;
+                    background-color: none;
 
                 }
 
@@ -482,7 +511,7 @@ nav {
                     color: rgba(255, 255, 255, 0.4);
 
                 }
-            }
+            
 
     }
 

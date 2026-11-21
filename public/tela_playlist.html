@@ -74,27 +74,19 @@
 
                 </div>
 
-                <div class="cards_musicas_playlist" id="cards_musicas_playlist">
-                </div>
+                <div class="cards_musicas_playlist" id="cards_musicas_playlist"></div>
 
                 <div class="campo_buscar_musica">
 
                     <input oninput="buscarMusica()" id="input_busca_musica" type="text">
 
-                    <ul id="popup_busca_musica">
-
-                        
-
-                    </ul>
+                    <ul id="popup_busca_musica"></ul>
 
                 </div>
 
             </div>
 
         </div>
-
-
-
 
     </div>
 
@@ -106,178 +98,262 @@
 </html>
 <script>
     
-    var temporizador
+    // alguns elementos da tela que eu vou precisar gravar como variável pois o javascript vai precisar manusear
 
-    var lista_musicas = []
+    const inputBusca = document.getElementById("input_busca_musica");
+    const popupBusca = document.getElementById("popup_busca_musica");
+    const containerCards = document.getElementById("cards_musicas_playlist");
+    const estadoVazio = document.getElementById("estado_vazio");
 
-    var container_cards = document.getElementById("cards_musicas_playlist");
+    let temporizador;
+    let listaMusicas = [];
+
+
+    // aqui acontece a requisição para a API da Deezer
+    // eu primeiro faço um trim, e lowercase para limpar a busca do usuário
+    // o cleartimeout serve para resetar a latência de 400ms caso o usuário volte a digitar antes que o
+    // o temporizador chegue ao fim
+
+    // quando a input tem mais de 2 caracteres, a requisição ao endpoint da Deezer acontece
 
     function buscarMusica() {
 
-        var buscar_musica_input = input_busca_musica.value
-        var popup_busca = popup_busca_musica
+        const texto = inputBusca.value.trim().toLowerCase();
 
-        let busca_limpa = buscar_musica_input.toLowerCase().trim()
+        clearTimeout(temporizador);
 
-        clearTimeout(temporizador)
+        if (texto.length < 2) {
 
-        if (busca_limpa.length >= 2) {
-
-            // coloquei um cleartimeout para que o intervalo de requisições seja reiniciado
-            // logo abaixo, eu faço uma função para ficar exibindo "buscando..." até que a API devolva as
-            // sugestões de provavéis músicas baseadas no que o usuário escreveu 
-
-            console.log(busca_limpa)
-
-            popup_busca_musica.style.display = "block";
-            popup_busca_musica.innerHTML = "<li>Buscando...</li>";
-
-            // aqui acontece de fato a requisição para a API, por meio do fetch. Criei uma espécie d
-            // "uniformizante" de busca, que mantém tudo em lowercase, um trim para remover os espaços inúteis
-            // que um usuário pode vir a inserir, e um encodeURI para a busca do usuário não quebrar a URL da 
-            // requisição ao digitar caractéres especiais, ou espaços entre palavras
-            // o html não fala português, fala HTML, por isso:
-            // Rock nacional anos 80 em encodeURI vira -> Rock%20nacional%20anos%2080
-            // assim, a requisição acontece sem empecilhos
-
-            temporizador = setTimeout(function intervalo_pedido() {
-
-                fetch("/deezer/buscar?q=" + encodeURIComponent(busca_limpa))
-
-                // o bom dessa API, é que o link das requisições é o mesmo, eu só concateno o que de fato eu
-                // quero buscar, seja o nome do artista, ou da música
-
-                .then(function (resposta) {
-
-                    return resposta.json()
-
-                })
-
-                .then(function (dados) {
-
-                    // aqui, eu faço com o javascript, o popup levantar assim que o usuário digita alguma coisa
-                    // e sumir assim que ele seleciona algo, ou que não esteja procurando.
-                    // logo abaixo, também tem a função da busca com o for, onde ele gera um elemento lista
-                    // que concatena a imagem da música, o nome da música, e o artista.
-
-                    lista_musicas = dados
-
-                    popup_busca_musica.style.display = "block"
-
-                    popup_busca_musica.innerHTML = ""
-
-                    for (let i = 0; i < lista_musicas.length; i++) {
-                    
-                        popup_busca_musica.innerHTML += "<li onclick='mostrar(" + i + ")'><img src='" + lista_musicas[i].capa + "'>" + lista_musicas[i].musica + " - " + lista_musicas[i].artista + "</li>"
-                    
-                    }
-
-                    if (popup_busca_musica.innerHTML == ""){
-
-                        popup_busca_musica.innerHTML = `Nenhuma música/artista encontrado.`
-
-                    }
-
-                })
-                        
-                    .catch(function (erro) {
-
-                    console.log(erro)
-                    
-                })
-
-            }, 400)
-
-            
-
-            
-
-            
-
-        } else {
-            
-
-            console.log("curto demais")
-
-            popup_busca.style.display = "none"
-
+            popupBusca.style.display = "none";
             return;
 
         }
 
+        // aqui tem um "buscando artificial", que na verdade só está esperando a requisição chegar após o timeout
+
+        popupBusca.style.display = "block";
+        popupBusca.innerHTML = "<li>Buscando...</li>";
+
+        temporizador = setTimeout(function () {
+
+            fetch("/deezer/buscar?q=" + encodeURIComponent(texto))
+
+                .then(function (resposta) {
+
+                    if (!resposta.ok) throw new Error("Erro na busca.");
+                    return resposta.json();
+
+                    // caso a resposta não "esteja ok", ele printa o erro na busca
+
+                })
+
+                .then(function (musicas) {
+
+                    listaMusicas = musicas;
+                    popupBusca.innerHTML = "";
+
+                    if (musicas.length == 0) {
+
+                        popupBusca.textContent = "Nenhuma música ou artista encontrado.";
+                        return;
+
+                        // se a lista não retornar nenhuma música, é porque não tem nenhuma mesmo
+
+                    }
+
+                    // aqui os cards são desenhados a medida que a gente percorre o array de musicas
+
+                    for (let i = 0; i < musicas.length; i++) {
+
+                        popupBusca.innerHTML += 
+                        `<li onclick="mostrar(${i})"><img src="${musicas[i].capa}">${musicas[i].musica} - ${musicas[i].artista}</li>`;
+
+                    }
+
+                })
+
+                .catch(function (erro) {
+
+                    console.log(erro);
+                    popupBusca.textContent = "Não foi possível realizar a busca.";
+
+                });
+
+        }, 400);
+
     }
 
-    function mostrar(posicao) {
 
-        // ele primeiro oculta o popup e limpa a input quando alguém clica na música
-        // ela vira um card, que se torna um player audível
+    // através dessa função, a o disco quebrado some quando a gente clica em uma música
+    // e ainda na mesma função, ela some com o popup de busca, e com o input, quando seleciona uma música
 
-        var musica = lista_musicas[posicao];
+    function mostrar(indice) {
 
-        var card_musica = document.createElement("div")
-        card_musica.className = "card_musica"
+        const musica = listaMusicas[indice];
 
-        document.getElementById("estado_vazio").style.display = "none";
+        if (!musica) return;
 
-        card_musica.innerHTML = `
-        <img src="${musica.capa}" alt="Capa de ${musica.musica}">
-        <div class="info_musica">
-            <div class="nome">${musica.musica}</div>
-            <div class="artista">${musica.artista}</div>
-        </div>
-        <button class="btn_genero">Adicionar gênero</button>
-        <input type="text" class="input_genero" placeholder="Digite o gênero..." style="display:none;">
-        <button class="btn_remover" title="Remover">×</button>
-        <button class="btn_dropdown" title="Opções">▼</button>
+        estadoVazio.style.display = "none";
+
+        criarCard(musica, null, null);
+
+        popupBusca.style.display = "none";
+        inputBusca.value = "";
+
+    }
+
+
+    // aqui é onde se desenha os cards das músicas selecionadas
+
+    function criarCard(musica, idBanco, genero) {
+
+        const card = document.createElement("div");
+        card.className = "card_musica";
+
+        if (idBanco != null) {
+            card.dataset.id = idBanco;
+        }
+
+        card.innerHTML = `
+            <img src="${musica.capa}" alt="Capa de ${musica.musica}">
+
+            <div class="info_musica">
+                <div class="nome">${musica.musica}</div>
+                <div class="artista">${musica.artista}</div>
+            </div>
+
+            <button class="btn_genero">Adicionar gênero</button>
+
+            <input type="text" class="input_genero"
+            placeholder="Digite o gênero..." style="display:none;">
+
+            <button class="btn_remover" title="Remover">×</button>
+
+            <button class="btn_dropdown" title="Opções">▼</button>
         `;
 
-        container_cards.appendChild(card_musica);
+        containerCards.appendChild(card);
 
-        var btnRemover = card_musica.querySelector(".btn_remover");
+        const botaoGenero = card.querySelector(".btn_genero");
+        const inputGenero = card.querySelector(".input_genero");
 
-            btnRemover.addEventListener("click", function () {
+        if (genero) {
+            botaoGenero.textContent = genero;
+            inputGenero.value = genero;
+        }
 
-            card_musica.remove();
-            
-            if (container_cards.children.length === 0) {
+        // ABRIR CAMPO DE GÊNERO
 
-                document.getElementById("estado_vazio").style.display = "flex";
+        botaoGenero.onclick = function () {
+            botaoGenero.style.display = "none";
+            inputGenero.style.display = "inline-block";
+            inputGenero.focus();
+        };
 
+        // SALVAR AO PRESSIONAR ENTER OU SAIR DO CAMPO
+
+        inputGenero.onkeydown = function (evento) {
+            if (evento.key == "Enter") {
+                inputGenero.blur();
             }
-            
-        });
+        };
 
-        console.log(lista_musicas[posicao])
+        inputGenero.onblur = function () {
+            salvarGenero(musica, card, botaoGenero, inputGenero);
+        };
 
-        popup_busca_musica.style.display = "none"
+        // REMOVER MÚSICA
 
-        input_busca_musica.value = ""
+        card.querySelector(".btn_remover").onclick = function () {
+            removerCard(card);
+        };
 
-        var btnGenero = card_musica.querySelector(".btn_genero");
-        var inputGenero = card_musica.querySelector(".input_genero");
-
-        // isso aqui é bem legal, faz o botão virar um input quando clica, e quando tira o foco, vira botão de novo
-        btnGenero.addEventListener("click", function () {
-
-        btnGenero.style.display = "none";
-        inputGenero.style.display = "inline-block";
-        inputGenero.focus();
-
-        });
+    }
 
 
+    // SALVAR GÊNERO E MÚSICA NO BANCO
 
-        inputGenero.addEventListener("blur", function () {
-        var genero = inputGenero.value.trim();
+    function salvarGenero(musica, card, botaoGenero, inputGenero) {
+
+        const genero = inputGenero.value.trim();
+        const idUsuario = sessionStorage.ID_USUARIO;
+        const idBanco = card.dataset.id
 
         if (!genero) {
-            // aqui se ele não clicar nada, volta ao normal
-            btnGenero.style.display = "inline-block";
+            botaoGenero.style.display = "inline-block";
             inputGenero.style.display = "none";
             return;
         }
 
-        // aqui fica a requisição onde se cadastra a música no banco de dados!
+        if (!idUsuario) {
+            console.log("Usuário não está logado.");
+            botaoGenero.style.display = "inline-block";
+            inputGenero.style.display = "none";
+            return;
+        }
+
+        botaoGenero.disabled = true;
+
+        // se a música já existe, com o gênero, e tudo cadastrado, é feito a alteração do gênero dela
+
+        if (idBanco) {
+
+            fetch("/musica/atualizar-genero/" + idBanco, {
+
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({genero: genero})
+
+            })
+
+            .then(function (resposta) {
+
+    console.log("Status:", resposta.status);
+
+    return resposta.text().then(function (dados) {
+
+        console.log("Resposta do servidor:", dados);
+
+        if (!resposta.ok) {
+            throw new Error(dados);
+        }
+
+        return JSON.parse(dados);
+
+    });
+
+})
+            
+            .then (function (dados) {
+
+                if (!dados.sucesso) {
+
+                    throw new Error("Não foi possível atualizar o gênero") 
+
+                }
+
+                botaoGenero.textContent = genero
+                inputGenero.style.display = "none"
+                botaoGenero.style.display = "inline-block"
+                botaoGenero.disabled = false;
+            
+            })
+
+            .catch (function (erro) {
+
+                console.log(erro)
+                botaoGenero.style.display = "inline-block"
+                botaoGenero.disabled = false
+                inputGenero.style.display = "none"
+
+            })
+
+            return
+
+        }
+
+        // se a música é nova, e não existe no banco de dados ainda, é feito o cadastro da mesma
+
         fetch("/musica/cadastrar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -291,43 +367,136 @@
                 foto_artista: musica.foto_artista
             })
         })
-        .then(function (resposta) {
-            return resposta.json();
-        })
-        .then(function (dados) {
-            if (!dados || !dados.sucesso) {
-                throw "Erro ao cadastrar música";
-            }
 
-            // e aqui executa a função de associar, que faz insert na tabela associativa :)
-            var idUsuario = sessionStorage.ID_USUARIO;
-            if (!idUsuario) {
-                throw "Usuário não logado";
-            }
+            .then(function (resposta) {
+                if (!resposta.ok) throw new Error("Erro ao cadastrar música.");
+                return resposta.json();
+            })
 
-            return fetch("/musica/associar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    fk_usuario: idUsuario,
-                    fk_musica: dados.id
-                })
+            .then(function (dados) {
+
+                if (!dados || !dados.sucesso) {
+                    throw new Error("Não foi possível cadastrar a música.");
+                }
+
+                card.dataset.id = dados.id;
+
+                return fetch("/musica/associar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        fk_usuario: idUsuario,
+                        fk_musica: dados.id
+                    })
+                });
+
+            })
+
+            .then(function (resposta) {
+                if (!resposta.ok) throw new Error("Erro ao associar música.");
+                return resposta.json();
+            })
+
+            .then(function () {
+                inputGenero.style.display = "none";
+                botaoGenero.textContent = genero;
+                botaoGenero.style.display = "inline-block";
+                botaoGenero.disabled = false;
+            })
+
+            .catch(function (erro) {
+                console.log(erro);
+                botaoGenero.disabled = false;
+                botaoGenero.style.display = "inline-block";
+                inputGenero.style.display = "none";
             });
+
+    }
+
+
+    // REMOVER MÚSICA
+
+    function removerCard(card) {
+
+        const idBanco = card.dataset.id;
+
+        // Se ainda não foi salva, remove apenas da tela.
+
+        if (!idBanco) {
+            tirarDaTela(card);
+            return;
+        }
+
+        fetch("/musica/remover/" + sessionStorage.ID_USUARIO + "/" + idBanco, {
+            method: "DELETE"
         })
-        .then(function () {
-            // se tudo der certo, a gente joga um card com sua música pimposa lá dentro
-            inputGenero.style.display = "none";
-            btnGenero.textContent = "Gênero adicionado";
-            btnGenero.style.display = "inline-block";
-            btnGenero.disabled = true;
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            //  as se não der certo, a gente não faz nada também
-            inputGenero.style.display = "none";
-            btnGenero.style.display = "inline-block";
-        });
-    });
-}
+
+            .then(function (resposta) {
+                if (!resposta.ok) throw new Error("Erro ao remover música.");
+                tirarDaTela(card);
+            })
+
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+    }
+
+
+    // ATUALIZAR TELA APÓS REMOÇÃO
+
+    function tirarDaTela(card) {
+
+        card.remove();
+
+        if (containerCards.children.length == 0) {
+            estadoVazio.style.display = "flex";
+        }
+
+    }
+
+
+    // CARREGAR PLAYLIST DO USUÁRIO
+
+    function carregarPlaylist() {
+
+        const idUsuario = sessionStorage.ID_USUARIO;
+
+        if (!idUsuario) {
+            window.location = "login.html";
+            return;
+        }
+
+        fetch("/musica/listar/" + idUsuario)
+
+            .then(function (resposta) {
+                if (!resposta.ok) throw new Error("Erro ao carregar playlist.");
+                return resposta.json();
+            })
+
+            .then(function (musicas) {
+
+                if (musicas.length > 0) {
+                    estadoVazio.style.display = "none";
+                }
+
+                for (let i = 0; i < musicas.length; i++) {
+                    criarCard(musicas[i], musicas[i].id, musicas[i].genero);
+                }
+
+            })
+
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+    }
+
+
+    // INICIAR PÁGINA
+
+    carregarPlaylist();
+
+
 
 </script>
