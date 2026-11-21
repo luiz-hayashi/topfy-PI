@@ -31,6 +31,7 @@ nav {
 
             width: 120px;
             height: auto;
+            cursor: pointer;
 
         }
 
@@ -226,7 +227,7 @@ nav {
             justify-content: center;
             align-items: center;
             padding: 10px 15px;
-            margin-top: 35px;
+            margin-top: 22px;
             width: 500px;
             height: 40px;
             border: 1px solid;
@@ -266,6 +267,7 @@ nav {
                 display: flex;
                 align-items: center;
                 gap: 12px;
+            
 
             }
 
@@ -300,8 +302,8 @@ nav {
         padding: 20px;
         box-sizing: border-box;
         overflow-y: auto;
-        max-height: 300px;
-        margin-top: 15px;
+        max-height: 380px;
+        margin-top: 10px;
         scrollbar-width: thin;
         scrollbar-color: #444444 transparent;
 
