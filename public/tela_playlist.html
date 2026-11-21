@@ -214,12 +214,18 @@
             card.dataset.id = idBanco;
         }
 
-        card.innerHTML = `
+        card.innerHTML = 
+        `
+        <div class="linha_musica">
+
             <img src="${musica.capa}" alt="Capa de ${musica.musica}">
 
             <div class="info_musica">
+
                 <div class="nome">${musica.musica}</div>
+
                 <div class="artista">${musica.artista}</div>
+
             </div>
 
             <button class="btn_genero">Adicionar gênero</button>
@@ -230,12 +236,57 @@
             <button class="btn_remover" title="Remover">×</button>
 
             <button class="btn_dropdown" title="Opções">▼</button>
-        `;
+
+        </div>
+
+        <div class="player_deezer" style="display: none;"></div>
+`;
 
         containerCards.appendChild(card);
 
-        const botaoGenero = card.querySelector(".btn_genero");
-        const inputGenero = card.querySelector(".input_genero");
+        const botaoDropdown = card.querySelector(".btn_dropdown");
+        const playerDeezer = card.querySelector(".player_deezer");
+
+        const idDeezer = String(musica.id_musica || "")
+
+        if (botaoDropdown && /^\d+$/.test(idDeezer)) {
+
+            botaoDropdown.onclick = function () {
+
+                if (playerDeezer.style.display === "none") {
+
+                    if (!playerDeezer.querySelector("iframe")) {
+
+                        const iframe = document.createElement("iframe")
+
+                        iframe.src = "https://widget.deezer.com/widget/dark/track/" + idDeezer
+
+                        iframe.width = "100%"
+                        iframe.height = "150"
+                        iframe.allow = "encrypted-media; clipboard-write"
+                        iframe.allowFullscreen = true
+
+                        playerDeezer.appendChild(iframe)
+
+                    }
+
+                    playerDeezer.style.display = "block"
+                    botaoDropdown.innerHTML = "▲"
+
+                } else {
+
+                    playerDeezer.innerHTML = ""
+                    playerDeezer.style.display = "none"
+                    botaoDropdown.innerHTML = "▼"
+
+                }
+
+            }
+
+        }
+
+        const botaoGenero = card.querySelector(".btn_genero")
+        const inputGenero = card.querySelector(".input_genero")
 
         if (genero) {
             botaoGenero.textContent = genero;

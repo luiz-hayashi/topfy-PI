@@ -5,7 +5,7 @@ function buscar(req, res) {
 
     var busca = req.query.q
 
-    fetch("https://api.deezer.com/search/track?limit=8&q=" + encodeURIComponent(busca))
+    fetch("https://api.deezer.com/search/track?limit=20&q=" + encodeURIComponent(busca))
 
     .then(function (resposta) {
 

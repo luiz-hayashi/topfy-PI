@@ -255,6 +255,11 @@ nav {
             box-sizing: border-box;
             display: none;
             transform: translateY(45px);
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #444444 transparent;
 
             li {
 
@@ -322,6 +327,8 @@ nav {
         width: 100%;
         box-sizing: border-box;
         transition: transform 0.2s, box-shadow 0.2s;
+        flex-direction: column;
+       
 
             .genero_tag {
 
@@ -515,6 +522,35 @@ nav {
 
     }
 
+    .linha_musica {
+
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+
+    }
+
+    .player_deezer {
+
+        flex-basis: 100%;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-top: 15px;
+
+        
+    }
+
+    .player_deezer iframe {
+
+        display: block;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+  
+
+    }
 
 }
 
