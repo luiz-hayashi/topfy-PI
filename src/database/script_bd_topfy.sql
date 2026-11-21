@@ -4,21 +4,20 @@ USE topfy;
 
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(45) NOT NULL UNIQUE,
+	email VARCHAR(45) UNIQUE NOT NULL,
 	senha VARCHAR(45) NOT NULL
 );
 
-
 CREATE TABLE musica (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	musica VARCHAR(150) NOT NULL,
-	artista VARCHAR(100) NOT NULL,
+    musica VARCHAR(45) NOT NULL,
+	artista VARCHAR(45) NOT NULL,
 	genero VARCHAR(45) NOT NULL,
-	id_musica VARCHAR(300) NOT NULL,
-	id_artista VARCHAR(300) NOT NULL,
-	capa VARCHAR(300) NOT NULL,
-	foto_artista VARCHAR(300) NOT NULL
-);
+    id_musica VARCHAR(300) NOT NULL,
+    id_artista VARCHAR(300) NOT NULL,
+    capa VARCHAR(300) NOT NULL,
+    foto_artista VARCHAR(300) NOT NULL
+    );
 
 CREATE TABLE usuario_musica (
 	fk_usuario INT,
