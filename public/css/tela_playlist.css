@@ -560,9 +560,9 @@ nav {
 
     img {
 
-        width: 225px;
-        height: 225px;
-        opacity: 30%;
+        width: 350px;
+        height: auto;
+        opacity: 40%;
         margin-top: -10px;
 
     }

@@ -1,0 +1,669 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-size: 101%;
+    background-color: #121212;
+    box-sizing: border-box;
+    color: white;
+    font-family: "DM Sans";
+}
+
+    nav {
+
+        display: flex;
+        flex: 1;
+        background-color: #1b1b1b;
+        height: 10vh;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(255, 255, 255, 0.09);
+
+        .logo_navbar {
+
+
+            margin-top: 7px;
+            margin-left: 15px;
+
+            img {
+
+                width: 120px;
+                height: auto;
+                cursor: pointer;
+
+            }
+
+        }
+
+        .elemento_playlist {
+
+            display: flex;
+            margin-top: -4px;
+            margin-left: 40px;
+
+            p {
+
+                font-size: 20px;
+
+                a {
+
+                    text-decoration: none;
+                    color: white;
+                    border-bottom: 2px solid transparent;
+                    padding-bottom: 15px;
+                    transition: 100ms;
+
+                }
+
+                a:hover {
+
+                    border-bottom-color: #1ed760;
+
+
+                }
+
+
+            }
+
+
+
+        }
+
+        .elemento_dashboard {
+
+            display: flex;
+            margin-top: -1.5px;
+            margin-left: 40px;
+
+            p {
+
+                font-size: 19px;
+
+                a {
+
+                    text-decoration: none;
+                    color: white;
+                    border-bottom: 2px solid transparent;
+                    padding-bottom: 15px;
+                    transition: 100ms;
+
+                }
+
+                a:hover {
+
+                    border-bottom-color: #1ed760;
+
+
+                }
+
+
+            }
+
+
+        }
+
+            .elemento_usuario {
+
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                margin-left: auto;
+
+                P {
+
+                    font-size: 19px;
+                    margin-top: 18px;
+                    margin-left: 0;
+
+            }
+
+            img {
+
+                margin-top: -14px;
+                margin-left: -20px;
+                width: 85px;
+                height: 85px;
+
+            }
+
+        }
+
+        .elemento_quiz {
+
+            display: flex;
+
+            p {
+
+                font-size: 19px;
+                margin-top: 18px;
+                margin-left: 40px;
+
+                a {
+
+                    text-decoration: none;
+                    color: white;
+                    border-bottom: 2px solid transparent;
+                    padding-bottom: 15px;
+                    transition: 100ms;
+
+                }
+
+                a:hover {
+
+                    border-bottom-color: #1ed760;
+
+
+                }
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        grid-template-rows: auto 1fr;
+        gap: 20px;
+        width: 97%;
+        max-width: 1400px;
+        height: calc(90vh - 10px);
+        min-height: 480px;
+        margin: 12px auto;
+        margin-top: -2px;
+
+        #mensagem_dashboard {
+            grid-column: 1 / 3;
+            margin: 0;
+            color: #ff8a8a;
+        }
+
+        .painel_generos {
+            display: grid;
+            grid-column: 1;
+            grid-row: 2;
+            grid-template-columns: 1.2fr 1fr;
+            grid-template-rows: auto 1fr;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 24px;
+            background-color: #1f1f1f;
+
+            h2 {
+                grid-column: 1 / 3;
+                grid-row: 1;
+                margin: 6px 0 18px;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .grafico_de_generos {
+                position: relative;
+                grid-column: 1;
+                grid-row: 2;
+                width: 100%;
+                height: 100%;
+                min-height: 300px;
+                box-sizing: border-box;
+                padding: 14px;
+            }
+
+            #lista_generos {
+                grid-column: 2;
+                grid-row: 2;
+                align-self: center;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+
+                li {
+
+                    margin: 4px 0;
+                    font-size: 15px;
+                    font-weight: 600;
+
+                    &::before {
+
+                        display: inline-block;
+                        width: 12px;
+                        height: 12px;
+                        margin-right: 10px;
+                        border-radius: 50%;
+                        background-color: #4b7bec;
+                        content: "";
+
+                    }
+
+                }
+
+                .genero-2::before {
+                    
+                    background-color: #a678f0;
+
+                }
+
+                .genero-3::before {
+                    
+                    background-color: #f5b65c;
+
+                }
+
+                .genero-4::before {
+
+                    background-color: #ffda4a;
+
+                }
+
+                .genero-5::before {
+
+                    background-color: #e56b6f;
+                    
+                }
+
+                .genero-6::before {
+
+                    background-color: #49b8a5;
+
+                }
+
+            }
+
+        }
+
+        .coluna_direita {
+            
+            display: flex;
+            grid-column: 2;
+            grid-row: 2;
+            flex-direction: column;
+            gap: 16px;
+
+            .painel_artistas {
+
+                flex: 1;
+                padding: 16px;
+                border-radius: 24px;
+                background-color: #1f1f1f;
+
+                h2 {
+
+                    margin: 4px 0 12px;
+                    font-size: 20px;
+                    text-align: center;
+
+                }
+
+                #lista_artistas {
+                    
+                    display: flex;
+                    min-height: 125px;
+                    align-items: flex-end;
+                    justify-content: center;
+                    gap: 12px;
+
+                    .artista-card {
+
+                        flex: 1;
+                        text-align: center;
+
+                        img {
+
+                            display: block;
+                            width: 100%;
+                            max-width: 180px;
+                            height: auto;
+                            aspect-ratio: 1 / 1;
+                            margin: 0 auto 10px;
+                            border-radius: 8px;
+                            object-fit: cover;
+
+                        }
+
+                        p {
+
+                            margin: 0;
+                            font-size: 15px;
+
+                        }
+
+                        span {
+
+                            display: block;
+                            margin-top: 3px;
+                            color: #bdbdbd;
+                            font-size: 14px;
+
+                        }
+
+                    }
+
+                    .artista-primeiro {
+
+                        order: 2;
+
+                        img {
+
+                            width: 80%;
+                            max-width: 160px;
+
+                        }
+
+                    }
+
+                    .artista-segundo {
+
+                        order: 3;
+
+                        img {
+
+                            width: 65%;
+                            max-width: 130px;
+                            
+                        }
+
+                    }
+
+                    .artista-terceiro {
+
+                        order: 1;
+
+                        img {
+
+                            width: 50%;
+                            max-width: 100px;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            .painel_resumo {
+
+                padding: 16px;
+                border-radius: 24px;
+                background-color: #1f1f1f;
+
+                h2 {
+
+                    margin: 4px 0 10px;
+                    font-size: 20px;
+                    text-align: center;
+
+                }
+
+                .cartoes-resumo {
+
+                    display: flex;
+                    gap: 12px;
+
+                    .cartao-resumo {
+
+                        display: flex;
+                        min-height: 120px;
+                        flex: 1;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 16px;
+                        background-color: #292929;
+
+                        .icone-kpi {
+
+                            width: 26px;
+                            height: 26px;
+                            margin-bottom: 6px;
+                            object-fit: contain;
+
+                        }
+
+                        strong {
+
+                            font-size: 32px;
+                            font-weight: 500;
+
+                        }
+
+                        span {
+
+                            color: #bdbdbd;
+                            font-size: 15px;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    .conteudo_pagina_vazio {
+        
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        text-align: center;
+
+        img {
+
+            width: 360px;
+            max-width: 80%;
+            height: auto;
+            opacity: 0.7;
+
+        }
+
+        .texto_dash_vazia {
+
+            width: 100%;
+
+            p {
+
+                width: 100%;
+                max-width: none;
+                margin: 12px 0;
+                font-size: 28px;
+                text-align: center;
+                white-space: nowrap;
+                
+            }
+        }
+    }
+
+
+@media (max-width: 800px) {
+    body {
+
+        .dashboard {
+
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            width: calc(100% - 32px);
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            margin: 20px auto;
+
+            #mensagem_dashboard {
+
+                grid-column: 1;
+                grid-row: auto;
+
+            }
+
+            .painel_generos {
+
+                grid-column: 1;
+                grid-row: auto;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 260px auto;
+                min-height: 500px;
+
+                h2 {
+
+                    grid-column: 1;
+                    grid-row: 1;
+                    font-size: 24px;
+                    
+                }
+
+                .grafico_de_generos {
+
+                    grid-column: 1;
+                    grid-row: 2;
+                    min-height: 0;
+
+                }
+
+                #lista_generos {
+
+                    grid-column: 1;
+                    grid-row: 3;
+
+                }
+
+            }
+
+            .coluna_direita {
+
+                grid-column: 1;
+                grid-row: auto;
+
+                .painel_artistas {
+
+                    min-height: 300px;
+
+                    h2 {
+
+                        font-size: 24px;
+
+                    }
+
+                }
+
+                .painel_resumo {
+
+                    min-height: 300px;
+
+                    h2 {
+
+                        font-size: 24px;
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+
+    body {
+
+        .dashboard {
+            
+            .painel_generos {
+
+                padding: 20px;
+                border-radius: 22px;
+
+            }
+
+            .coluna_direita {
+
+                .painel_artistas {
+
+                    padding: 20px;
+                    border-radius: 22px;
+
+                    #lista_artistas {
+
+                        gap: 8px;
+
+                        .artista-primeiro {
+
+                            img {
+
+                                max-width: 140px;
+
+                            }
+                        }
+
+                        .artista-segundo {
+
+                            img {
+                                
+                                max-width: 115px;
+
+                            }
+                        }
+
+                        .artista-terceiro {
+
+                            img {
+
+                                max-width: 90px;
+
+                            }
+                        }
+
+                        .artista-card {
+
+                            p {
+
+                                font-size: 15px;
+
+                            }
+                        }
+                    }
+                }
+
+                .painel_resumo {
+
+                    padding: 20px;
+                    border-radius: 22px;
+
+                    .cartoes-resumo {
+
+                        gap: 8px;
+
+                        .cartao-resumo {
+
+                            min-height: 120px;
+
+                            strong {
+
+                                font-size: 32px;
+
+                            }
+
+                            span {
+
+                                font-size: 14px;
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

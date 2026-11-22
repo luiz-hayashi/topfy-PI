@@ -1,6 +1,6 @@
 // a rota só recebe a requisição, o controller trata a os dados recebidos, e o model salva no banco de dados (SQL)
 
-var musicaModel = require("../models/musicaModel");
+var musicaModel = require("../models/musicaModel")
 
 // aqui faz a tratativa de dados a serem recebidos pela requisicao (req.body), e valida se tem algo em branco
 
@@ -148,13 +148,51 @@ function atualizarGenero(req, res) {
 
 }
 
+function dashboard(req, res) {
+
+    var idUsuario = Number(req.params.idUsuario);
+
+    if (!Number.isInteger(idUsuario) || idUsuario <= 0) {
+
+        return res.status(400).json({ erro: "ID de usuário inválido" });
+
+    }
+
+    Promise.all([
+
+        musicaModel.contarGeneros(idUsuario),
+        musicaModel.contarArtistas(idUsuario),
+        musicaModel.contarResumo(idUsuario)
+
+    ])
+        .then(function (resultados) {
+
+            res.json({
+
+                generos: resultados[0],
+                artistas: resultados[1],
+                resumo: resultados[2][0]
+
+            });
+
+        })
+
+        .catch(function (erro) {
+
+            res.status(500).json({ erro: erro.sqlMessage || "Erro ao carregar dashboard" });
+
+        });
+
+}
+
 module.exports = {
 
     cadastrar,
     associar,
     listar,
     remover,
-    atualizarGenero
+    atualizarGenero,
+    dashboard
 
 }
 

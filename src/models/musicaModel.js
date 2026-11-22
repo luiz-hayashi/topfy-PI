@@ -33,7 +33,8 @@ function associarUsuario(fk_usuario, fk_musica) {
 // do usuário
 function listar(idUsuario) {
 
-    var instrucaoSql = `
+    var instrucaoSql = 
+    `
         SELECT m.id, m.id_musica, m.musica, m.artista, m.capa, m.genero
         FROM usuario_musica um
         JOIN musica m ON m.id = um.fk_musica
@@ -41,6 +42,18 @@ function listar(idUsuario) {
     `;
 
     return database.executar(instrucaoSql, [idUsuario]);
+
+}
+
+// aqui, caso o usuário opte por remover uma música da sua playlist, faz o delete da musica que está associada ao 
+// ao seu perfil
+
+function removerMusica(id) {
+
+    var instrucaoSql = 
+    `DELETE FROM musica WHERE id = ? AND NOT EXISTS (SELECT 1 FROM usuario_musica WHERE fk_musica = ?);`
+
+    return database.executar(instrucaoSql, [id, id]);
 
 }
 
@@ -57,16 +70,9 @@ function removerAssociacao(fk_usuario, fk_musica) {
 
 }
 
-// aqui, caso o usuário opte por remover uma música da sua playlist, faz o delete do banco de dados
 
-function removerMusica(id) {
 
-    var instrucaoSql = 
-    `DELETE FROM musica WHERE id = ? AND NOT EXISTS (SELECT 1 FROM usuario_musica WHERE fk_musica = ?);`
-
-    return database.executar(instrucaoSql, [id, id]);
-
-}
+// aqui, quando o usuário clica de novo no input de genero, e coloca outra coisa, realiza o update no bd
 
 function atualizarGenero (idMusica, genero) {
 
@@ -77,6 +83,66 @@ function atualizarGenero (idMusica, genero) {
 
 }
 
+// aqui é a consulta que gera o grafico pizza de generos
+
+function contarGeneros(idUsuario) {
+
+    var instrucaoSql = 
+    `
+        SELECT musica.genero, COUNT(*) AS total
+        FROM usuario_musica
+        JOIN musica ON musica.id = usuario_musica.fk_musica
+        WHERE usuario_musica.fk_usuario = ?
+        GROUP BY musica.genero
+        ORDER BY total DESC;
+    `;
+
+    return database.executar(instrucaoSql, [idUsuario]);
+
+}
+
+// aqui é a consulta que gera a kpi de pódio dos artistas
+
+function contarArtistas(idUsuario) {
+
+    var instrucaoSql = 
+    `
+        SELECT
+            musica.id_artista,
+            musica.artista,
+            musica.foto_artista,
+            COUNT(*) AS total
+        FROM usuario_musica
+        JOIN musica ON musica.id = usuario_musica.fk_musica
+        WHERE usuario_musica.fk_usuario = ?
+        GROUP BY musica.id_artista, musica.artista, musica.foto_artista
+        ORDER BY total DESC
+        LIMIT 3;
+    `;
+
+    return database.executar(instrucaoSql, [idUsuario]);
+
+}
+
+// aqui é a consulta que gera o kpi de resumo da playlist, que soma as músicas, os artistas, e os generos distintos
+
+function contarResumo(idUsuario) {
+
+    var instrucaoSql = 
+    `
+        SELECT
+            COUNT(*) AS total_musicas,
+            COUNT(DISTINCT musica.id_artista) AS total_artistas,
+            COUNT(DISTINCT musica.genero) AS total_generos
+        FROM usuario_musica
+        JOIN musica ON musica.id = usuario_musica.fk_musica
+        WHERE usuario_musica.fk_usuario = ?;
+    `;
+
+    return database.executar(instrucaoSql, [idUsuario]);
+
+}
+
 module.exports = {
 
     associarUsuario,
@@ -84,7 +150,10 @@ module.exports = {
     listar,
     removerAssociacao,
     removerMusica,
-    atualizarGenero
+    atualizarGenero,
+    contarGeneros,
+    contarArtistas,
+    contarResumo
 
 };
 

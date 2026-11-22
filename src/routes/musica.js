@@ -24,13 +24,22 @@ router.post("/associar", function (req, res) {
 
 })
 
-// aqui é uma rota de requisição que dá get, ou seja, é uma consulta, não uma inserção
+// aqui é uma rota de requisição que dá get, ou seja, é uma consulta, não uma inserção.
+// aqui acontece a listagem de músicas que já existem no banco de dados
 
 router.get("/listar/:idUsuario", function (req, res) {
 
     musicaController.listar(req, res)
 
 })
+
+// aqui é a rota onde acontece a solicitação dos 
+
+router.get("/dashboard/:idUsuario", function (req, res) {
+
+    musicaController.dashboard(req, res);
+
+});
 
 // aqui é a rota por onde a solicitação de remoção de músicas passa
 // note que é router.delete, enquanto a de consulta é -get-, e a de inserção é -post-
@@ -48,6 +57,8 @@ router.put("/atualizar-genero/:idMusica", function(req, res) {
     musicaController.atualizarGenero(req, res)
 
 })
+
+
 
 module.exports = router
 

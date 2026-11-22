@@ -12,7 +12,7 @@
 <body>
 <body onload="validarSessao()">
 
-    <div class="navbar">
+    <div class="conteudo">
 
         <nav>
 
@@ -30,7 +30,7 @@
 
             <div class="elemento_dashboard">
 
-                <p><a href="">Dashboard</a></p>
+                <p><a href="tela_dashboard.html">Dashboard</a></p>
 
             </div>
 
@@ -98,13 +98,14 @@
     
     // alguns elementos da tela que eu vou precisar gravar como variável pois o javascript vai precisar manusear
 
-    const inputBusca = document.getElementById("input_busca_musica");
-    const popupBusca = document.getElementById("popup_busca_musica");
-    const containerCards = document.getElementById("cards_musicas_playlist");
-    const estadoVazio = document.getElementById("estado_vazio");
+    const inputBusca = document.getElementById("input_busca_musica")
+    const popupBusca = document.getElementById("popup_busca_musica")
+    const containerCards = document.getElementById("cards_musicas_playlist")
+    const estadoVazio = document.getElementById("estado_vazio")
 
-    let temporizador;
-    let listaMusicas = [];
+    let temporizador
+
+    let listaMusicas = []
 
 
     // aqui acontece a requisição para a API da Deezer
@@ -116,44 +117,44 @@
 
     function buscarMusica() {
 
-        const texto = inputBusca.value.trim().toLowerCase();
+        const texto = inputBusca.value.trim().toLowerCase()
 
-        clearTimeout(temporizador);
+        clearTimeout(temporizador)
 
         if (texto.length < 2) {
 
-            popupBusca.style.display = "none";
-            return;
+            popupBusca.style.display = "none"
+            return
 
         }
 
         // aqui tem um "buscando artificial", que na verdade só está esperando a requisição chegar após o timeout
 
-        popupBusca.style.display = "block";
-        popupBusca.innerHTML = "<li>Buscando...</li>";
+        popupBusca.style.display = "block"
+        popupBusca.innerHTML = "<li>Buscando...</li>"
 
         temporizador = setTimeout(function () {
 
-            fetch("/deezer/buscar?q=" + encodeURIComponent(texto))
+            fetch("/deezer/buscar?q=" + encodeURIComponent(texto)) // promise de que vai entregar o resultado da busca
 
                 .then(function (resposta) {
 
-                    if (!resposta.ok) throw new Error("Erro na busca.");
-                    return resposta.json();
+                    if (!resposta.ok) throw new Error("Erro na busca.")
+                    return resposta.json()
 
-                    // caso a resposta não "esteja ok", ele printa o erro na busca
-
+                    // caso a resposta seja um erro de HTTP, e não um erro do promise.
+                    // é quando uma resposta de fato de chega/resolvida, mas não é o promise esperado
                 })
 
                 .then(function (musicas) {
 
-                    listaMusicas = musicas;
-                    popupBusca.innerHTML = "";
+                    listaMusicas = musicas
+                    popupBusca.innerHTML = ""
 
                     if (musicas.length == 0) {
 
-                        popupBusca.textContent = "Nenhuma música ou artista encontrado.";
-                        return;
+                        popupBusca.textContent = "Nenhuma música ou artista encontrado."
+                        return
 
                         // se a lista não retornar nenhuma música, é porque não tem nenhuma mesmo
 
@@ -172,12 +173,12 @@
 
                 .catch(function (erro) {
 
-                    console.log(erro);
-                    popupBusca.textContent = "Não foi possível realizar a busca.";
+                    console.log(erro)
+                    popupBusca.textContent = "Não foi possível realizar a busca."
 
-                });
+                })
 
-        }, 400);
+        }, 400)
 
     }
 
@@ -187,16 +188,16 @@
 
     function mostrar(indice) {
 
-        const musica = listaMusicas[indice];
+        const musica = listaMusicas[indice]
 
         if (!musica) return;
 
-        estadoVazio.style.display = "none";
+        estadoVazio.style.display = "none"
 
         criarCard(musica, null, null);
 
-        popupBusca.style.display = "none";
-        inputBusca.value = "";
+        popupBusca.style.display = "none"
+        inputBusca.value = ""
 
     }
 
@@ -205,11 +206,11 @@
 
     function criarCard(musica, idBanco, genero) {
 
-        const card = document.createElement("div");
-        card.className = "card_musica";
+        const card = document.createElement("div")
+        card.className = "card_musica"
 
         if (idBanco != null) {
-            card.dataset.id = idBanco;
+            card.dataset.id = idBanco
         }
 
         card.innerHTML = 
@@ -242,8 +243,8 @@
 
         containerCards.appendChild(card);
 
-        const botaoDropdown = card.querySelector(".btn_dropdown");
-        const playerDeezer = card.querySelector(".player_deezer");
+        const botaoDropdown = card.querySelector(".btn_dropdown")
+        const playerDeezer = card.querySelector(".player_deezer")
 
         const idDeezer = String(musica.id_musica || "")
 
@@ -287,8 +288,8 @@
         const inputGenero = card.querySelector(".input_genero")
 
         if (genero) {
-            botaoGenero.textContent = genero;
-            inputGenero.value = genero;
+            botaoGenero.textContent = genero
+            inputGenero.value = genero
         }
 
         // ABRIR CAMPO DE GÊNERO
@@ -296,14 +297,14 @@
         botaoGenero.onclick = function () {
             botaoGenero.style.display = "none";
             inputGenero.style.display = "inline-block";
-            inputGenero.focus();
+            inputGenero.focus()
         };
 
         // SALVAR AO PRESSIONAR ENTER OU SAIR DO CAMPO
 
         inputGenero.onkeydown = function (evento) {
             if (evento.key == "Enter") {
-                inputGenero.blur();
+                inputGenero.blur()
             }
         };
 
@@ -314,7 +315,7 @@
         // REMOVER MÚSICA
 
         card.querySelector(".btn_remover").onclick = function () {
-            removerCard(card);
+            removerCard(card)
         };
 
     }

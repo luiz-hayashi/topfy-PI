@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Topfy</title>
+    <link rel="stylesheet" href="css/tela_dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" defer></script>
+    <script src="./js/grafico_dashboard.js" defer></script> 
+    <script src="./js/sessao.js"></script> 
+    
+</head>
+<body onload="validarSessao(); carregarDashboard()">
+
+
+    <div class="conteudo">
+
+        <nav>
+
+            <div class="logo_navbar">
+
+                <img src="imagens/logotopfywbg.png" alt="" onclick="limparSessao()">
+
+            </div>
+
+            <div class="elemento_playlist">
+
+                <p><a href="tela_playlist.html">Playlist</a></p>
+
+            </div>
+
+            <div class="elemento_dashboard">
+
+                <p><a href="">Dashboard</a></p>
+
+            </div>
+
+            <div class="elemento_quiz">
+
+                <p><a href="tela_quiz.html">Quiz</a></p>
+
+            </div>
+
+            <div class="elemento_usuario">
+
+                <p id="b_usuario">usuário</p> <img src="imagens/ícone_usuario_tela_playlist.png" alt="">
+
+            </div>
+
+        </nav>
+
+
+
+
+        <div class="conteudo_pagina_vazio">
+
+            <img src="imagens/sem-dashboard.png" alt="">
+
+            <div class="texto_dash_vazia">
+
+                <p>Você precisa adicionar músicas para ter acesso a Dashboard</p>
+
+            </div>
+
+        </div>
+
+        <main class="dashboard">
+
+            <p id="mensagem_dashboard"></p>
+
+            <section class="painel_generos">
+
+                <h2>Gêneros mais ouvidos</h2>
+
+                <div class="grafico_de_generos">
+
+                    <canvas id="grafico_generos"></canvas>
+
+                </div>
+
+                <ul id="lista_generos"></ul>
+
+            </section>
+
+            <div class="coluna_direita">
+
+                <section class="painel_artistas">
+
+                    <h2>Artistas mais ouvidos</h2>
+
+                    <div id="lista_artistas"></div>
+
+                </section>
+
+                <section class="painel_resumo">
+
+                    <h2>Sua playlist em números</h2>
+
+                    <div class="cartoes-resumo">
+
+                        <article class="cartao-resumo">
+
+                            <img class="icone-kpi" src="imagens/icone-musicas.png" alt="">
+                            <strong id="total_musicas">0</strong>
+
+                            <span>Músicas</span>
+
+                        </article>
+
+                        <article class="cartao-resumo">
+
+                            <img class="icone-kpi" src="imagens/icone-artistas.png" alt="">
+                            <strong id="total_artistas">0</strong>
+
+                            <span>Artistas</span>
+
+                        </article>
+
+                        <article class="cartao-resumo">
+
+                            <img class="icone-kpi" src="imagens/icone-generos.png" alt="">
+                            <strong id="total_generos">0</strong>
+
+                            <span>Gêneros</span>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    function carregarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch("/musica/dashboard/" + idUsuario)
+            .then(function (resposta) {
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar os dados");
+                }
+
+                return resposta.json();
+            })
+            .then(function (dados) {
+                var temMusicas = Number(dados.resumo.total_musicas) > 0;
+                var estadoVazio = document.querySelector(".conteudo_pagina_vazio");
+                var dashboard = document.querySelector(".dashboard");
+
+                if (temMusicas) {
+                    estadoVazio.style.display = "none";
+                    dashboard.style.display = "grid";
+                } else {
+                    estadoVazio.style.display = "flex";
+                    dashboard.style.display = "none";
+                    return;
+                }
+
+                var generosParaMostrar = agruparGeneros(dados.generos);
+
+                mostrarResumo(dados.resumo);
+                mostrarGeneros(generosParaMostrar);
+                mostrarArtistas(dados.artistas);
+                criarGraficoGeneros(generosParaMostrar);
+            })
+            .catch(function (erro) {
+                console.error(erro);
+                document.getElementById("mensagem_dashboard").textContent =
+                    "Erro ao carregar os dados do dashboard.";
+            });
+    }
+
+    function agruparGeneros(generos) {
+        var generosAgrupados = [];
+        var totalOutros = 0;
+
+        for (var i = 0; i < generos.length; i++) {
+            if (i < 4) {
+                generosAgrupados.push(generos[i]);
+            } else {
+                totalOutros += Number(generos[i].total);
+            }
+        }
+
+        if (generos.length > 4) {
+            generosAgrupados.push({
+                genero: "Outros",
+                total: totalOutros
+            });
+        }
+
+        return generosAgrupados;
+    }
+
+    function mostrarResumo(resumo) {
+        document.getElementById("total_musicas").textContent = resumo.total_musicas;
+        document.getElementById("total_artistas").textContent = resumo.total_artistas;
+        document.getElementById("total_generos").textContent = resumo.total_generos;
+    }
+
+    function mostrarGeneros(generos) {
+        var listaGeneros = document.getElementById("lista_generos");
+        listaGeneros.innerHTML = "";
+
+        for (var i = 0; i < generos.length; i++) {
+            var genero = generos[i];
+            var item = document.createElement("li");
+            item.classList.add("genero-" + (i + 1));
+            item.textContent =
+                genero.genero + ": " + genero.total + " músicas";
+
+            listaGeneros.appendChild(item);
+        }
+    }
+
+    function mostrarArtistas(artistas) {
+        var listaArtistas = document.getElementById("lista_artistas");
+        listaArtistas.innerHTML = "";
+
+        for (var i = 0; i < artistas.length; i++) {
+            var artista = artistas[i];
+            var cartao = document.createElement("div");
+            var imagem = document.createElement("img");
+            var nome = document.createElement("p");
+            var quantidade = document.createElement("span");
+
+            cartao.classList.add("artista-card");
+
+            if (i === 0) {
+                cartao.classList.add("artista-primeiro");
+            } else if (i === 1) {
+                cartao.classList.add("artista-segundo");
+            } else if (i === 2) {
+                cartao.classList.add("artista-terceiro");
+            }
+
+            imagem.src = artista.foto_artista;
+            imagem.alt = "Foto de " + artista.artista;
+            nome.textContent = (i + 1) + "º " + artista.artista;
+            quantidade.textContent = artista.total + " músicas";
+
+            cartao.appendChild(imagem);
+            cartao.appendChild(nome);
+            cartao.appendChild(quantidade);
+            listaArtistas.appendChild(cartao);
+        }
+    }
+</script>
