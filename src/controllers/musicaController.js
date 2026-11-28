@@ -20,6 +20,7 @@ function cadastrar(req, res) {
     // ou o erro se tiver dado errado ne
 
     musicaModel.cadastrar(musica, artista, genero, id_musica, id_artista, capa, foto_artista)
+    
     .then(function (resultado) {
 
         res.json({ id: resultado.insertId, sucesso: true});
@@ -95,6 +96,7 @@ function remover(req, res) {
     }
 
     musicaModel.removerAssociacao(idUsuario, idMusica)
+    
     .then(function () {
 
         return musicaModel.removerMusica(idMusica)

@@ -6,7 +6,8 @@ function cadastrar(musica, artista, genero, id_musica, id_artista, capa, foto_ar
 
     console.log("salvei uma música ai")
 
-    var instrucaoSql = `
+    var instrucaoSql = 
+    `
         INSERT INTO musica (musica, artista, genero, id_musica, id_artista, capa, foto_artista) VALUES 
         (?, ?, ?, ?, ?, ?, ?);
     `;
@@ -20,7 +21,8 @@ function cadastrar(musica, artista, genero, id_musica, id_artista, capa, foto_ar
 // aqui eu faço a associação entre a música, e o usuário que a selecionou 
 function associarUsuario(fk_usuario, fk_musica) {
 
-    var instrucaoSql = `
+    var instrucaoSql = 
+    `
         INSERT INTO usuario_musica (fk_usuario, fk_musica) VALUES
         (?, ?);
     `;
@@ -34,6 +36,7 @@ function associarUsuario(fk_usuario, fk_musica) {
 function listar(idUsuario) {
 
     var instrucaoSql = 
+
     `
         SELECT m.id, m.id_musica, m.musica, m.artista, m.capa, m.genero
         FROM usuario_musica um
@@ -51,6 +54,7 @@ function listar(idUsuario) {
 function removerMusica(id) {
 
     var instrucaoSql = 
+
     `DELETE FROM musica WHERE id = ? AND NOT EXISTS (SELECT 1 FROM usuario_musica WHERE fk_musica = ?);`
 
     return database.executar(instrucaoSql, [id, id]);
@@ -64,6 +68,7 @@ function removerMusica(id) {
 function removerAssociacao(fk_usuario, fk_musica) {
 
     var instrucaoSql = 
+
     `DELETE FROM usuario_musica WHERE fk_usuario = ? AND fk_musica = ?;`
 
     return database.executar(instrucaoSql, [fk_usuario, fk_musica]);
@@ -77,6 +82,7 @@ function removerAssociacao(fk_usuario, fk_musica) {
 function atualizarGenero (idMusica, genero) {
 
     var instrucaoSql = 
+
     `UPDATE musica SET genero = ? WHERE id = ?;`
 
     return database.executar(instrucaoSql, [genero, idMusica])
@@ -88,12 +94,13 @@ function atualizarGenero (idMusica, genero) {
 function contarGeneros(idUsuario) {
 
     var instrucaoSql = 
+
     `
         SELECT musica.genero, COUNT(*) AS total
         FROM usuario_musica
         JOIN musica ON musica.id = usuario_musica.fk_musica
         WHERE usuario_musica.fk_usuario = ?
-        GROUP BY musica.genero
+        GROUP BY musica .genero
         ORDER BY total DESC;
     `;
 
@@ -106,6 +113,7 @@ function contarGeneros(idUsuario) {
 function contarArtistas(idUsuario) {
 
     var instrucaoSql = 
+
     `
         SELECT
             musica.id_artista,
@@ -129,6 +137,7 @@ function contarArtistas(idUsuario) {
 function contarResumo(idUsuario) {
 
     var instrucaoSql = 
+
     `
         SELECT
             COUNT(*) AS total_musicas,

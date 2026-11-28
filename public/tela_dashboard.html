@@ -142,9 +142,11 @@
 
 <script>
     function carregarDashboard() {
+
         var idUsuario = sessionStorage.ID_USUARIO;
 
         fetch("/musica/dashboard/" + idUsuario)
+        
             .then(function (resposta) {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível carregar os dados");

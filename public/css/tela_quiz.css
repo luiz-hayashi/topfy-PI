@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 
 body {
@@ -216,3 +216,273 @@ nav {
     }
 
 }
+
+.contador_questao {
+
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 23px;
+    font-size: 25px;
+
+}
+
+.quiz {
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #1b1b1b;
+    margin-top: 23px;
+    margin-left: 80px;
+    margin-right: 80px;
+    border-radius: 10px;
+    height: 400px;
+    box-sizing: border-box;
+
+    .texto_quiz {
+
+        margin-left: 145px;
+        margin-right: 120px;
+        margin-top: 20px;
+        padding-bottom: 100px;
+        font-weight: bold;
+        height: 100px;
+        flex-shrink: 0;
+
+    }
+
+    .alternativas input[type="radio"]:checked {
+
+        accent-color: #1ed760;
+
+    }
+
+    .legendas {
+
+        display: flex;
+        flex-direction: row;
+        gap: 175px;
+        margin-bottom: 20px;
+        margin-top: -50px;
+
+    }
+
+    .alternativas {
+
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        margin-bottom: 50px;
+        appearance: none;
+        
+        .alternativa_btn1 {
+
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            
+
+        }
+
+        .alternativa_btn2 {
+
+            width: 33.5px;
+            height: 33.5px;
+            border-radius: 50%;
+
+        }
+
+        .alternativa_btn3 {
+
+            width: 27.5px;
+            height: 27.5px;
+            border-radius: 50%;
+
+        }
+
+        .alternativa_btn4 {
+
+            width: 33.5px;
+            height: 33.5px;
+            border-radius: 50%;
+
+        }
+
+        .alternativa_btn5 {
+
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+
+        }
+
+    }
+
+    .botao_proxima button{
+
+        border-radius: 100px;
+        height: 45px;
+        width: 155px;
+        font-size: 25px;
+        font-weight: bold;
+        background-color: #1ed760;
+        font-family: "DM Sans";
+        margin-bottom: 40px;
+        border: none;
+
+        &:hover {
+
+            transform: scale(1.02);
+            transition: 0.2ms;
+
+        }
+
+        &:active {
+
+            transform: scale(1);
+            transition: 0.2ms;
+
+        }
+
+    }
+
+
+
+}
+
+.resultado_quiz {
+
+    display: none;
+    height: calc(90vh - 1px);
+    padding: 18px 4%;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: white;
+
+    .perfil_resultado {
+
+        display: inline-block;
+        vertical-align: top;
+        width: 38%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 0 32px 0 0;
+        border-right: 1px solid rgba(255,255,255,.12);
+        text-align: center;
+
+        > .titulo_voce_e { 
+            
+            margin: 0; 
+            font-size: 42px;
+            margin-bottom: 10px;
+        
+        }
+
+        #nome_arquetipo { 
+            
+            margin: 0 0 12px; 
+            font-size: 48px;
+            margin-bottom: 15px; 
+        
+        }
+
+        #frase_arquetipo { 
+            
+            margin: 20px 0 18px; 
+            font-size: 17px; 
+            font-weight: bold; 
+            margin-top: 30px;
+        
+        }
+
+        .grafico_perfis {
+
+            h2 { 
+                
+                margin: 36px 0 40px; 
+                font-size: 20px; 
+                text-align: left;
+                margin-bottom: 20px;
+            
+            }
+
+            #barras_perfis {
+
+                display: grid;
+                gap: 13px;
+                text-align: left;
+
+                .linha_perfil {
+
+                    display: grid;
+                    grid-template-columns: 105px 1fr 44px;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 14px;
+
+                    strong { 
+                        
+                        text-align: right; 
+                    
+                    }
+
+                    .barra_fundo {
+
+                        height: 12px;
+                        overflow: hidden;
+                        border-radius: 10px;
+                        background: rgba(255,255,255,.18);
+
+                        .barra_cor { height: 100%; border-radius: inherit; }
+                    }
+                }
+            }
+        }
+    }
+
+    .recomendacoes_resultado {
+
+        display: inline-flex;
+        vertical-align: top;
+        width: 60%;
+        height: 100%;
+        box-sizing: border-box;
+        flex-direction: column;
+        padding-left: 40px;
+
+        h2 { 
+            
+            margin: 8px 0 22px; text-align: center; font-size: 44px; font-weight: 500; 
+        
+        }
+
+        #lista_recomendacoes {
+
+            display: grid;
+            flex: 1;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            gap: 22px;
+            text-align: center;
+
+            .musica_recomendada {
+
+                a { display: block; }
+                img { width: min(100%, 220px); aspect-ratio: 1; object-fit: cover; }
+                h3 { margin: 12px 0 4px; font-size: 17px; }
+                p { margin: 0; font-size: 15px; }
+
+            }
+        }
+    }
+
+}
+
+.quiz {
+    form { margin: 0; }
+}
+
+

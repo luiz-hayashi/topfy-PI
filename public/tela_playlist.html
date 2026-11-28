@@ -144,6 +144,7 @@
 
                     // caso a resposta seja um erro de HTTP, e não um erro do promise.
                     // é quando uma resposta de fato de chega/resolvida, mas não é o promise esperado
+
                 })
 
                 .then(function (musicas) {
@@ -209,8 +210,10 @@
         const card = document.createElement("div")
         card.className = "card_musica"
 
-        if (idBanco != null) {
+        if (idBanco != null) {  
+            
             card.dataset.id = idBanco
+
         }
 
         card.innerHTML = 
@@ -358,17 +361,18 @@
 
             .then(function (resposta) {
 
-    console.log("Status:", resposta.status);
+            console.log("Status:", resposta.status);
 
-    return resposta.text().then(function (dados) {
+            return resposta.text().then(function (dados) {
 
-        console.log("Resposta do servidor:", dados);
+                console.log("Resposta do servidor:", dados);
 
-        if (!resposta.ok) {
+
+            if (!resposta.ok) {
             throw new Error(dados);
-        }
+            }
 
-        return JSON.parse(dados);
+            return JSON.parse(dados);
 
     });
 

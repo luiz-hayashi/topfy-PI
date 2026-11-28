@@ -1,20 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz - Topfy</title>
     <link rel="stylesheet" href="css/tela_quiz.css">
+    <script src="./js/sessao.js"></script>
 </head>
-<body>
-    
+<body onload="validarSessao()">
+
     <div class="navbar">
 
         <nav>
 
             <div class="logo_navbar">
 
-                <img src="imagens/logotopfywbg.png" alt="">
+                <a href="index.html"><img src="imagens/logotopfywbg.png" alt=""></a>
 
             </div>
 
@@ -38,15 +39,15 @@
 
             <div class="elemento_usuario">
 
-                <p>Hayashi</p> <img src="imagens/ícone_usuario_tela_playlist.png" alt="">
+                <p id="b_usuario">Usuário</p> <img src="imagens/ícone_usuario_tela_playlist.png" alt="">
 
-            </div>
+            </div>    
 
-        </nav>    
+        </nav>
 
     </div>
 
-    <div class="tela_inicial_quiz">
+    <div class="tela_inicial_quiz" id="tela_inicial_quiz">
 
         <div class="texto_descubra">
 
@@ -56,20 +57,340 @@
 
         <div class="botao_iniciar_quiz">
 
-            <button>Iniciar Quiz</button>
+            <button onclick="quiz_time()">Iniciar Quiz</button>
 
         </div>
 
+    </div>
 
+    <div class="contador_questao" id="contador_questao">1/9</div>
 
+    <div class="quiz" id="quiz">
 
+        <div class="texto_quiz">
+
+            <h2 id="questao">A questão aparecerá aqui</h2>
+
+        </div>
+
+        <div class="legendas">
+
+            <div class="legenda_discordo_muito">Discordo muito</div>
+            <div class="legenda_concordo_muito">Concordo muito</div>
+            
+        </div>
+        <form id="formulario_resposta">
+
+            <div class="alternativas" id="alternativas">
+
+                <input type="radio" name="resposta" value="-20" id="resposta1" class="alternativa_btn1">
+                <input type="radio" name="resposta" value="-10" id="resposta2" class="alternativa_btn2">
+                <input type="radio" name="resposta" value="0" id="resposta3" class="alternativa_btn3">
+                <input type="radio" name="resposta" value="10" id="resposta4" class="alternativa_btn4">
+                <input type="radio" name="resposta" value="20" id="resposta5" class="alternativa_btn5">
+
+            </div>
+
+        </form>
+
+        <div class="botao_proxima">
+
+            <button onclick="proxima_questao()" id="botao_questao">Próxima</button>
+
+        </div>
 
     </div>
 
+    <div class="resultado_quiz" id="resultado_quiz">
+
+        <div class="perfil_resultado">
+
+            <p class="titulo_voce_e">Você é</p>
+
+            <h1 id="nome_arquetipo"></h1>
+
+            <p id="frase_arquetipo" class="frase_arquetipo"></p>
+
+            <div class="grafico_perfis">
+
+                <h2>Seu perfil musical</h2>
+                <div id="barras_perfis"></div>
+
+            </div>
+
+        </div>
+
+        <div class="recomendacoes_resultado">
+
+            <h2>Você pode gostar de</h2>
+            <div id="lista_recomendacoes"></div>
+
+        </div>
+
+    </div>
+
+<script>
+    const perfis = [
+        { id: "cosmopolita", nome: "Cosmopolita", cor: "#ec4899", fundo: "linear-gradient(to bottom, #3d1629 0%, #121212 25%)", frase: "“Para aqueles que encontram sua voz em meio às multidões.”", musicas: [
+            { titulo: "Não Te Amo", artista: "Jão", imagem: "imagens/musicas%20topfy%20quiz/capa_naoteamo_jao.jpg" },
+            { titulo: "The One That Got Away", artista: "Katy Perry", imagem: "imagens/musicas%20topfy%20quiz/capa_theonethatgotaway_katyperry.jpg" },
+            { titulo: "Soft Spot", artista: "keshi", imagem: "imagens/musicas%20topfy%20quiz/capa_softspot_keshi.jpg" }
+        ]},
+        { id: "entropico", nome: "Entrópico", cor: "#b026ff", fundo: "linear-gradient(to bottom, #271137 0%, #121212 25%)", frase: "“Para aqueles que se encontram na epifania das batidas.”", musicas: [
+            { titulo: "Hear Me Now", artista: "Alok", imagem: "imagens/musicas%20topfy%20quiz/capa_hearmenow_alok.jpg" },
+            { titulo: "Titanium", artista: "David Guetta", imagem: "imagens/musicas%20topfy%20quiz/capa_titanium_davidguetta.jpg" },
+            { titulo: "iPod Touch", artista: "Ninajirachi", imagem: "imagens/musicas%20topfy%20quiz/capa_ipodtouch_ninajirachi.jpg" }
+        ]},
+        { id: "rustico", nome: "Rústico", cor: "#71834a", fundo: "linear-gradient(to bottom, #252b1c 0%, #121212 25%)", frase: "“Para aqueles que não esquecem as raízes de sua essência.”", musicas: [
+            { titulo: "Futuros Amantes", artista: "Chico Buarque", imagem: "imagens/musicas%20topfy%20quiz/capa_futurosamantes_chicobuaruqe.jpg" },
+            { titulo: "Fecho os Meus Olhos", artista: "Bola", imagem: "imagens/musicas%20topfy%20quiz/capa_fechoosmeusolhos_bola.jpg" },
+            { titulo: "O Gigante", artista: "Zimbra", imagem: "imagens/musicas%20topfy%20quiz/capa_ogigante_zimbra.jpg" }
+        ]},
+        { id: "notivago", nome: "Notívago", cor: "#477cc4", fundo: "linear-gradient(to bottom, #172438 0%, #121212 25%)", frase: "“Para aqueles que florescem na melancolia da noite.”", musicas: [
+            { titulo: "Like I Want You", artista: "Giveon", imagem: "imagens/musicas%20topfy%20quiz/capa_likeiwantyou_giveon.jpg" },
+            { titulo: "Lost", artista: "RealestK", imagem: "imagens/musicas%20topfy%20quiz/capa_lost_realestk.jpg" },
+            { titulo: "Mais Um Voo", artista: "Teto", imagem: "imagens/musicas%20topfy%20quiz/capa_maisumvoo_teto.jpg" }
+        ]},
+        { id: "alternativo", nome: "Alternativo", cor: "#e99a62", fundo: "linear-gradient(to bottom, #38251b 0%, #121212 25%)", frase: "“Para aqueles que nunca se conformaram com os padrões.”", musicas: [
+            { titulo: "Conspiracy", artista: "Paramore", imagem: "imagens/musicas%20topfy%20quiz/capa_conspiracy_paramore.jpg" },
+            { titulo: "Get a Job", artista: "Porch Light", imagem: "imagens/musicas%20topfy%20quiz/capa_getajob_porchlight.jpg" },
+            { titulo: "Gravidade", artista: "Supercombo", imagem: "imagens/musicas%20topfy%20quiz/capa_gravidade_supercombo.jpg" }
+        ]},
+        { id: "visceral", nome: "Visceral", cor: "#dc143c", fundo: "linear-gradient(to bottom, #3b111a 0%, #121212 25%)", frase: "“Para aqueles que se sentem em casa na tempestade de seu âmago.”", musicas: [
+            { titulo: "Royal Beggars", artista: "Architects", imagem: "imagens/musicas%20topfy%20quiz/capa_royal_beggars_architects.jpg" },
+            { titulo: "Doomed", artista: "Bring Me the Horizon", imagem: "imagens/musicas%20topfy%20quiz/capa_doomed_bring_me.jpg" },
+            { titulo: "Água Viva", artista: "Oficina G3", imagem: "imagens/musicas%20topfy%20quiz/capa_agua_viva_oficinag3.jpg" }
+        ]}
+    ];
+
+    const perguntas = [
+        { texto: "Para mim, o auge de uma boa música é aquele refrão inesquecível que faz todo mundo cantar junto em perfeita sintonia.", pesos: { cosmopolita: 2 } },
+        { texto: "Gosto de canções íntimas e carregadas de sentimento, daquelas que falam sobre amor, saudade e vulnerabilidade sem pressa.", pesos: { rustico: 1, notivago: 1 } },
+        { texto: "Muitas vezes, a construção de uma batida eletrônica e o impacto de um drop me arrepiam muito mais do que qualquer letra.", pesos: { entropico: 2 } },
+        { texto: "Gosto de músicas que constroem uma tensão crescente e explodem em momentos de pura intensidade, onde dá para sentir a entrega total de quem está tocando.", pesos: { alternativo: 1, visceral: 1 } },
+        { texto: "Adoro músicas com uma carga emocional forte, daquelas que dão vontade de aumentar o volume e cantar cada palavra como se fosse sobre mim.", pesos: { alternativo: 2 } },
+        { texto: "Adoro canções que poetizam a vida real, sejam as histórias de vida ou a vida ordinária de cada dia.", pesos: { rustico: 2 } },
+        { texto: "Adoro músicas animadas que mudam a energia do ambiente na hora e dão vontade de se mexer, seja numa festa ou andando na rua.", pesos: { cosmopolita: 1, entropico: 1 } },
+        { texto: "Me encanto por músicas que criem um ambiente intimista, onde me sinto confortável.", pesos: { notivago: 2 } },
+        { texto: "Gosto de músicas que soam como resistir em meio ao caos — onde até a tempestade ganha sentido e vira combustível para continuar.", pesos: { visceral: 2 } }
+    ];
+
+    let contador = 0;
+    let pontos = {};
+    let resultadosQuiz = [];
+    let perfilSelecionado = {};
+
+    function quiz_time() {
+
+        contador = 0;
+        pontos = { cosmopolita: 0, entropico: 0, rustico: 0, notivago: 0, alternativo: 0, visceral: 0 }
+
+        let telaInicial = document.getElementById("tela_inicial_quiz")
+        let telaQuiz = document.getElementById("quiz")
+        let contadorQuestao = document.getElementById("contador_questao")
+        let telaResultado = document.getElementById("resultado_quiz")
+
+        telaInicial.style.display = "none"
+        telaQuiz.style.display = "flex"
+        contadorQuestao.style.display = "flex"
+        telaResultado.style.display = "none"
+        mostrarPergunta();
+
+    }
+
+    function mostrarPergunta() {
+
+        document.getElementById("questao").textContent = perguntas[contador].texto;
+        document.getElementById("contador_questao").textContent = (contador + 1) + "/9"
+
+        if (contador === 8) {
+
+            document.getElementById("botao_questao").textContent = "Finalizar"
+
+        } else {
+
+            document.getElementById("botao_questao").textContent = "Próxima"
+
+        }
+
+        document.getElementById("formulario_resposta").reset();
+    }
+
+    function proxima_questao() {
         
+        let valor = 0;
+        let respondeu = false
 
+        if (document.getElementById("resposta1").checked) {
+            valor = -20;
+            respondeu = true
+        }
+        if (document.getElementById("resposta2").checked) {
+            valor = -10;
+            respondeu = true
+        }
+        if (document.getElementById("resposta3").checked) {
+            valor = 0;
+            respondeu = true
+        }
+        if (document.getElementById("resposta4").checked) {
+            valor = 10;
+            respondeu = true
+        }
+        if (document.getElementById("resposta5").checked) {
+            valor = 20;
+            respondeu = true
+        }
 
+        if (respondeu === false) {
+            alert("Selecione uma resposta antes de continuar.");
+            return
+        }
 
+        const pesos = perguntas[contador].pesos;
+        let quantidadeDePerfis = 0
 
+        for (let i = 0; i < perfis.length; i++) {
+
+            if (pesos[perfis[i].id] !== undefined) {
+                quantidadeDePerfis++
+            }
+
+        }
+
+        if (quantidadeDePerfis === 2) {
+
+            valor = valor / 2
+
+        }
+
+        for (let i = 0; i < perfis.length; i++) {
+
+            if (pesos[perfis[i].id] !== undefined) {
+
+                pontos[perfis[i].id] += valor
+
+            }
+
+        }
+
+        if (contador === 8) {
+
+            mostrarResultado()
+
+        } else {
+
+            contador++;
+            mostrarPergunta()
+
+        }
+
+    }
+
+    function mostrarResultado() {
+
+        resultadosQuiz = []
+        let somaPontos = 0
+        let indicePrincipal = 0
+
+        for (let i = 0; i < perfis.length; i++) {
+            let pontuacao = pontos[perfis[i].id]
+            let maiorPontuacao = pontos[perfis[indicePrincipal].id]
+
+            if (pontuacao > 0) {
+                somaPontos = somaPontos + pontuacao
+            }
+            if (pontuacao > maiorPontuacao) {
+                indicePrincipal = i
+            }
+        }
+
+        let somaPercentual = 0;
+
+        if (somaPontos > 0) {
+            for (let i = 0; i < perfis.length; i++) {
+                let pontuacao = pontos[perfis[i].id]
+
+                if (pontuacao > 0) {
+                    let percentual = Math.floor(pontuacao / somaPontos * 100);
+                    resultadosQuiz.push({ perfil: perfis[i], percentual: percentual })
+                    somaPercentual = somaPercentual + percentual
+                }
+            }
+
+            for (let i = 0; i < resultadosQuiz.length; i++) {
+                if (resultadosQuiz[i].perfil.id === perfis[indicePrincipal].id) {
+                    resultadosQuiz[i].percentual =
+                        resultadosQuiz[i].percentual + 100 - somaPercentual
+                }
+            }
+        }
+
+        perfilSelecionado = perfis[indicePrincipal];
+
+        let nomeDoPerfil = perfilSelecionado.nome
+        let fraseDoPerfil = perfilSelecionado.frase
+        let fundoDoPerfil = perfilSelecionado.fundo
+
+        let campoNome = document.getElementById("nome_arquetipo");
+        let campoFrase = document.getElementById("frase_arquetipo");
+        let telaResultado = document.getElementById("resultado_quiz");
+
+        campoNome.textContent = nomeDoPerfil;
+        campoFrase.textContent = fraseDoPerfil;
+        telaResultado.style.background = fundoDoPerfil;
+
+        let grafico = document.getElementById("barras_perfis");
+        grafico.innerHTML = "";
+
+        if (resultadosQuiz.length === 0) {
+            grafico.innerHTML = "<p>Nenhum perfil teve pontuação positiva.</p>";
+        } else {
+            for (let i = 0; i < resultadosQuiz.length; i++) {
+                let item = resultadosQuiz[i];
+                let nomePerfil = item.perfil.nome;
+                let percentual = item.percentual;
+                let corPerfil = item.perfil.cor;
+
+                let linha = '<div class="linha_perfil">';
+                linha += '<span>' + nomePerfil + '</span>';
+                linha += '<div class="barra_fundo">';
+                linha += '<div class="barra_cor" style="width:' + percentual + '%; background:' + corPerfil + '"></div>';
+                linha += '</div>';
+                linha += '<strong>' + percentual + '%</strong>';
+                linha += '</div>';
+
+                grafico.innerHTML = grafico.innerHTML + linha;
+            }
+        }
+
+        let lista = document.getElementById("lista_recomendacoes");
+        lista.innerHTML = "";
+
+        for (let i = 0; i < perfilSelecionado.musicas.length; i++) {
+            let musica = perfilSelecionado.musicas[i];
+            let caminhoImagem = musica.imagem;
+            let linkSpotify = "https://open.spotify.com/search/" + musica.titulo + " " + musica.artista;
+            let card = '<div class="musica_recomendada">';
+            card += '<a href="' + linkSpotify + '" target="_blank" rel="noopener noreferrer">';
+            card += '<img src="' + caminhoImagem + '" alt="Ouvir ' + musica.titulo + ' no Spotify">';
+            card += '</a>';
+            card += '<h3>' + musica.titulo + '</h3>';
+            card += '<p>' + musica.artista + '</p>';
+            card += '</div>';
+            lista.innerHTML = lista.innerHTML + card;
+        }
+
+        let telaInicial = document.getElementById("tela_inicial_quiz");
+        let telaQuiz = document.getElementById("quiz");
+        let contadorQuestao = document.getElementById("contador_questao");
+
+        telaInicial.style.display = "none";
+        telaQuiz.style.display = "none";
+        contadorQuestao.style.display = "none";
+        telaResultado.style.display = "block";
+    }
+
+</script>
 </body>
 </html>
